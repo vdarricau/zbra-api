@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\FriendsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +21,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], static function (): void {
-    Route::get('/test', function() {
+    Route::get('/test', static function(): string {
         return 'test';
     });
 
@@ -28,4 +30,9 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     Route::get('/user', static function (Request $request) {
         return $request->user();
     });
+
+    Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
+    Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
+
+    Route::get('/friends', [FriendsController::class, 'index']);
 });
