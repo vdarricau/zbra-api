@@ -4,7 +4,6 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Models\UuidTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -67,8 +66,24 @@ class User extends Authenticatable
     /**
      * @return HasMany
      */
-    public function friendRequests(): HasMany
+    public function requestedFriendRequests(): HasMany
     {
         return $this->hasMany(FriendRequest::class, 'requester_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function friendRequests(): HasMany
+    {
+        return $this->hasMany(FriendRequest::class, 'friend_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function zbras(): HasMany
+    {
+        return $this->hasMany(Zbra::class, 'user_receiver_id');
     }
 }

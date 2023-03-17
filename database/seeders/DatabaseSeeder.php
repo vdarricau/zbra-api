@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(UserSeeder::class);
- 
         $this->command->info('User table seeded!');
+
+        $this->call(ZbraSeeder::class);
+        $this->command->info('Zbra table seeded!');
     }
 }

@@ -8,18 +8,22 @@ use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
 {
+    public const USER_ID = '35ff314e-1b05-4214-9cc3-b5ff924debbb';
+    public const OTHER_USER_ID = '988dc77b-25cd-492e-8bbc-32ab6cbe79af';
+
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
         $user = User::factory()->create([
-            'id' => '35ff314e-1b05-4214-9cc3-b5ff924debbb',
+            'id' => self::USER_ID,
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
         $friend = User::factory()->create([
+            'id' => self::OTHER_USER_ID,
             'name' => 'User Friend',
             'email' => 'friend@example.com',
         ]);
