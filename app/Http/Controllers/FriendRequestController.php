@@ -10,6 +10,24 @@ use Illuminate\Http\Request;
 
 class FriendRequestController extends Controller
 {
+    /**
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        /** @var User */
+        $user = auth()->user();
+
+        $filter = $request->query('filter', FriendRequest::PENDING);
+
+        if ($filter === FriendRequest::REQUESTED) {
+            $friendRequests = $user->requestedFriendRequests();
+        } else {
+            $friendRequests = $user->friendRequests();
+        }
+
+        return new JsonResponse($friendRequests->get());
+    }
 
     /**
      * Store a newly created resource in storage.

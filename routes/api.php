@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
 
     Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
     Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
+    Route::get('/friend-requests', [FriendRequestController::class, 'index']);
 
     Route::get('/friends', [FriendsController::class, 'index']);
 });

@@ -12,6 +12,9 @@ class FriendRequest extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
+    public const REQUESTED = 'requested';
+    public const PENDING = 'pending';
+
     /**
      * @return HasOne
      */
