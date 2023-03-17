@@ -46,44 +46,44 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @var User $newFriend
-     */
     public function addFriend(User $newFriend): void
     {
         $this->friends()->save($newFriend);
         $newFriend->friends()->save($this);
     }
 
-    /**
-     * @return BelongsToMany
-     */
     public function friends(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'friends', 'friend_connecting_id', 'friend_accepting_connection_id');
     }
 
-    /**
-     * @return HasMany
-     */
+    public function isFriend(User $friend): bool
+    {
+        return $this->friends()->where('friend_accepting_connection_id', $friend->id)->count() !== 0;
+    }
+
     public function requestedFriendRequests(): HasMany
     {
         return $this->hasMany(FriendRequest::class, 'requester_id');
     }
 
-    /**
-     * @return HasMany
-     */
     public function friendRequests(): HasMany
     {
         return $this->hasMany(FriendRequest::class, 'friend_id');
     }
 
-    /**
-     * @return HasMany
-     */
+    public function hasFriendRequest(User $friend): bool
+    {
+        return $this->friendRequests()->whereIn('requester_id', [$this->id, $friend->id])->count() !== 0;
+    }
+
     public function zbras(): HasMany
     {
         return $this->hasMany(Zbra::class, 'user_receiver_id');
+    }
+
+    public function sentZbras(): HasMany
+    {
+        return $this->hasMany(Zbra::class, 'user_sender_id');
     }
 }

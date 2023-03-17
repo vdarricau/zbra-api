@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'user_sender_id');
             $table->foreignIdFor(User::class, 'user_receiver_id');
             $table->string('message');
+            $table->enum('status', ['sent', 'received', 'read'])->default('sent');
             $table->timestamps();
         });
     }

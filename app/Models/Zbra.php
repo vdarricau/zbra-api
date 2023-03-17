@@ -11,6 +11,13 @@ class Zbra extends Model
 {
     use HasFactory, HasUuids;
 
+    public const FILTER_SENT = 'sent';
+    public const FILTER_RECEIVED = 'received';
+
+    public const STATUS_SENT = 'read';
+    public const STATUS_RECEIVED = 'received'; // @TODO figure out this one
+    public const STATUS_READ = 'read';
+
     public function sender(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_sender_id');

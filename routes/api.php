@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\ZbraController;
+use App\Models\Zbra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,9 +33,15 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
         return $request->user();
     });
 
+    // Friends
     Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
     Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
     Route::get('/friend-requests', [FriendRequestController::class, 'index']);
 
     Route::get('/friends', [FriendsController::class, 'index']);
+
+    // Zbras
+    Route::get('/zbras', [ZbraController::class, 'index']);
+    Route::get('/zbras/{zbra}', [ZbraController::class, 'show']);
+    Route::post('/zbras', [ZbraController::class, 'store']);
 });

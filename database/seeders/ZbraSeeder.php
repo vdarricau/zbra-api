@@ -15,9 +15,10 @@ class ZbraSeeder extends Seeder
     public function run(): void
     {
         Zbra::factory()
-            ->for(User::factory(), 'sender')
-            ->for(User::factory(), 'receiver')
             ->create([
+                'id' => '98b57318-0a21-46c3-80c9-913dc0591f5f',
+                'user_sender_id' => UserSeeder::USER_ID,
+                'user_receiver_id' => UserSeeder::OTHER_USER_ID,
                 'message' => 'Zbrooooo',
             ])
         ;
