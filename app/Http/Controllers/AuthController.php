@@ -18,11 +18,13 @@ class AuthController extends Controller
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|unique:users,email',
+            'username' => 'required|string|unique:users,username',
             'password' => 'required|string|confirmed',
         ]);
 
         /** @var User */
         $user = User::create([
+            'username' => $fields['username'],
             'name' => $fields['name'],
             'email' => $fields['email'],
             'password' => Hash::make($fields['password']),
@@ -39,6 +41,8 @@ class AuthController extends Controller
     }
 
     /**
+     * @todo add possibility to login by username?
+     * 
      * @var Request $request
      * @return Response 
      */

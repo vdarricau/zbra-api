@@ -16,18 +16,21 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        /** @var User */
         $user = User::factory()->create([
             'id' => self::USER_ID,
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
 
+        /** @var User */
         $friend = User::factory()->create([
             'id' => self::OTHER_USER_ID,
             'name' => 'User Friend',
             'email' => 'friend@example.com',
         ]);
 
+        /** @var User */
         $friendRequestUser = User::factory()->create([
             'name' => 'User Friend request',
             'email' => 'friend.request@example.com',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
@@ -15,6 +16,6 @@ class FriendsController extends Controller
         /** @var User */
         $user = auth()->user();
 
-        return new JsonResponse($user->friends()->get());
+        return new JsonResponse(FriendResource::collection($user->friends()->get()));
     }
 }
