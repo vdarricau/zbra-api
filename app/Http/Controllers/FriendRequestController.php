@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FriendRequestResource;
 use App\Models\FriendRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -26,7 +27,7 @@ class FriendRequestController extends Controller
             $friendRequests = $user->friendRequests();
         }
 
-        return new JsonResponse($friendRequests->get());
+        return new JsonResponse(FriendRequestResource::collection($friendRequests->get()));
     }
 
     /**
