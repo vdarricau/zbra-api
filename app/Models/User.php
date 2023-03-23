@@ -54,13 +54,13 @@ class User extends Authenticatable
             throw new \LogicException('Can\'t add yourself as your friend!');
         }
 
-        $this->friends()->save($newFriend);
-        $newFriend->friends()->save($this);
+        $this->friends()->attach($newFriend);
+        $newFriend->friends()->attach($this);
     }
 
     public function friends(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'friends', 'friend_connecting_id', 'friend_accepting_connection_id');
+        return $this->belongsToMany(User::class, 'friends', 'friend_connecting_id', 'friend_accepting_connection_id')->withTimestamps();
     }
 
     public function isFriend(User $friend): bool
