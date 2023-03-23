@@ -16,6 +16,6 @@ class FriendsController extends Controller
         /** @var User */
         $user = auth()->user();
 
-        return new JsonResponse(FriendResource::collection($user->friends()->orderBy('created_at', 'DESC')->get()));
+        return new JsonResponse(FriendResource::collection($user->friends()->orderBy('friends.created_at', 'DESC')->get()));
     }
 }
