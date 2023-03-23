@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class FriendRequestResource extends JsonResource
+class ZbraResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,10 @@ class FriendRequestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'requester' => FriendResource::make($this->requester()->getResults()),
-            'friendToBe' => FriendResource::make($this->friendToBe()->getResults()),
+            'message' => $this->message,
+            'sender' => FriendResource::make($this->sender()->getResults()),
+            'receiver' => FriendResource::make($this->receiver()->getResults()),
+            'createdAt' => $this->created_at
         ];
     }
 }

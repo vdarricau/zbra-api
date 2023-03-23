@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -49,6 +50,10 @@ class User extends Authenticatable
 
     public function addFriend(User $newFriend): void
     {
+        if ($newFriend->is($this)) {
+            throw new \LogicException('Can\'t add yourself as your friend!');
+        }
+
         $this->friends()->save($newFriend);
         $newFriend->friends()->save($this);
     }
@@ -86,5 +91,13 @@ class User extends Authenticatable
     public function sentZbras(): HasMany
     {
         return $this->hasMany(Zbra::class, 'user_sender_id');
+    }
+
+    public function sentAndReceivedZbras(): Builder
+    {
+        return 
+            Zbra::where('user_sender_id', $this->id)
+                ->orWhere('user_receiver_id', $this->id)
+                ->orderBy('created_at', 'DESC');
     }
 }

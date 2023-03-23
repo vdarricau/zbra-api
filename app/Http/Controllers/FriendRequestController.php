@@ -77,9 +77,9 @@ class FriendRequestController extends Controller
         Gate::inspect('view', $friendRequest);
 
         /** @var User */
-        $friendToBe = $friendRequest->friendToBe()->getResults();
+        $newFriend = $friendRequest->requester()->getResults();
         
-        $user->addFriend($friendToBe);
+        $user->addFriend($newFriend);
 
         $friendRequest->delete();
 

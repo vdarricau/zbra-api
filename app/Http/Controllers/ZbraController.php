@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreZbraRequest;
+use App\Http\Resources\ZbraResource;
 use App\Models\User;
 use App\Models\Zbra;
 use Illuminate\Http\JsonResponse;
@@ -19,15 +20,17 @@ class ZbraController extends Controller
         /** @var User */
         $user = auth()->user();
 
-        $filter = $request->query('filter', Zbra::FILTER_RECEIVED);
+        $filter = $request->query('filter');
 
-        if ($filter === Zbra::FILTER_SENT) {
+        if (Zbra::FILTER_SENT === $filter) {
             $zbras = $user->sentZbras();
-        } else {
+        } elseif (Zbra::FILTER_RECEIVED === $filter) {
             $zbras = $user->zbras();
+        } else {
+            $zbras = $user->sentAndReceivedZbras();
         }
 
-        return new JsonResponse($zbras->get());
+        return new JsonResponse(ZbraResource::collection($zbras->get()));
     }
 
     /**
@@ -36,7 +39,7 @@ class ZbraController extends Controller
      */
     public function store(StoreZbraRequest $request): JsonResponse
     {
-        ['message' => $message, 'friend_id' => $friendId] = $request->validated();
+        ['message' => $message, 'friendId' => $friendId] = $request->validated();
 
         /** @var User */
         $user = auth()->user();
@@ -56,7 +59,7 @@ class ZbraController extends Controller
 
         $zbra->saveOrFail();
 
-        return new JsonResponse($zbra, 200);
+        return new JsonResponse(null, 201);
     }
 
     /**

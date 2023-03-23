@@ -15,7 +15,7 @@ class StoreZbraRequest extends FormRequest
     {
         return [
             'message' => 'required|string|max:255',
-            'friend_id' => 'exists:App\Models\User,id',
+            'friendId' => 'required|exists:App\Models\User,id',
         ];
     }
 }
