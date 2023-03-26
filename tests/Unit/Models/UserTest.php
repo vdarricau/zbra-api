@@ -15,9 +15,12 @@ class UserTest extends TestCase
      */
     public function should_show_zbra_if_send(): void
     {
+        /** @var User */
         $user = User::factory()->create();
-
+        
+        /** @var User */
         $friendWithZbra = User::factory()->create();
+        /** @var User */
         $friendNoZbra = User::factory()->create();
 
         $user->addFriend($friendWithZbra);
@@ -60,9 +63,12 @@ class UserTest extends TestCase
      */
     public function should_show_zbra_if_received(): void
     {
+        /** @var User */
         $user = User::factory()->create();
 
+        /** @var User */
         $friendWithZbra = User::factory()->create();
+        /** @var User */
         $friendNoZbra = User::factory()->create();
 
         $user->addFriend($friendWithZbra);
@@ -105,9 +111,12 @@ class UserTest extends TestCase
      */
     public function should_show_just_latest_if_send_received_by_same_user(): void
     {
+        /** @var User */
         $user = User::factory()->create();
-
+        
+        /** @var User */
         $friendWithZbra = User::factory()->create();
+        /** @var User */
         $friendNoZbra = User::factory()->create();
 
         $user->addFriend($friendWithZbra);
@@ -150,9 +159,12 @@ class UserTest extends TestCase
      */
     public function should_show_two_if_different_users(): void
     {
+        /** @var User */
         $user = User::factory()->create();
-
+        
+        /** @var User */
         $friendWithZbra = User::factory()->create();
+        /** @var User */
         $anotherFriendWithZbra = User::factory()->create();
 
         $user->addFriend($friendWithZbra);
