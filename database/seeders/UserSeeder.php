@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'id' => self::USER_ID,
             'name' => 'Test User',
             'username' => 'valzouille',
-            'email' => 'darricau.valentin@gmail.com',
+            'email' => 'val@zbra.ninja',
         ]);
 
         /** @var User */
