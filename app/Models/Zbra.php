@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,5 +27,13 @@ class Zbra extends Model
     public function receiver(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_receiver_id');
+    }
+
+    public static function getExchangedZbras(User $user, User $friend): Builder
+    {
+        return 
+            Zbra::whereIn('user_sender_id', [$user->id, $friend->id])
+            ->whereIn('user_receiver_id', [$user->id, $friend->id])
+        ;
     }
 }

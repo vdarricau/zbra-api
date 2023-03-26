@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     Route::get('/friend-requests', [FriendRequestController::class, 'index']);
 
     Route::get('/friends', [FriendsController::class, 'index']);
+    Route::get('/friends/{friend}', [FriendsController::class, 'view']);
+    Route::get('/friends/{friend}/zbras', [FriendsController::class, 'zbras']);
 
     // Zbras
     Route::get('/zbras', [ZbraController::class, 'index']);

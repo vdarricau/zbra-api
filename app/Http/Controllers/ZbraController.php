@@ -20,15 +20,7 @@ class ZbraController extends Controller
         /** @var User */
         $user = auth()->user();
 
-        $filter = $request->query('filter');
-
-        if (Zbra::FILTER_SENT === $filter) {
-            $zbras = $user->sentZbras();
-        } elseif (Zbra::FILTER_RECEIVED === $filter) {
-            $zbras = $user->zbras();
-        } else {
-            $zbras = $user->sentAndReceivedZbras();
-        }
+        $zbras = $user->zbras(); // TODO
 
         return new JsonResponse(ZbraResource::collection($zbras->get()));
     }
@@ -59,7 +51,7 @@ class ZbraController extends Controller
 
         $zbra->saveOrFail();
 
-        return new JsonResponse(null, 201);
+        return new JsonResponse(new ZbraResource($zbra), 201);
     }
 
     /**
