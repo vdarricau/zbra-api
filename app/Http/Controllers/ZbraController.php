@@ -7,30 +7,17 @@ use App\Http\Resources\ZbraResource;
 use App\Models\User;
 use App\Models\Zbra;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ZbraController extends Controller
 {
-    /**
-     * @var Request $request
-     * @return JsonResponse
-     */
-    public function index(Request $request): JsonResponse
-    {
-        /** @var User */
-        $user = auth()->user();
-
-        $zbras = $user->zbras(); // TODO
-
-        return new JsonResponse(ZbraResource::collection($zbras->get()));
-    }
-
     /**
      * @var StoreZbraRequest $request
      * @return JsonResponse
      */
     public function store(StoreZbraRequest $request): JsonResponse
     {
+        // @TODO https://laravel.com/docs/10.x/rate-limiting
+
         ['message' => $message, 'friendId' => $friendId] = $request->validated();
 
         /** @var User */

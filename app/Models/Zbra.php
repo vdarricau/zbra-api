@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\ZbraSaved;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,15 @@ class Zbra extends Model
     public const STATUS_SENT = 'read';
     public const STATUS_RECEIVED = 'received'; // @TODO figure out this one
     public const STATUS_READ = 'read';
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'saved' => ZbraSaved::class,
+    ];
 
     public function sender(): BelongsTo
     {

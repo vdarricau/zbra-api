@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\ZbraController;
@@ -43,7 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     Route::get('/friends/{friend}/zbras', [FriendsController::class, 'zbras']);
 
     // Zbras
-    Route::get('/zbras', [ZbraController::class, 'index']);
     Route::get('/zbras/{zbra}', [ZbraController::class, 'show']);
     Route::post('/zbras', [ZbraController::class, 'store']);
+
+    Route::get('/feeds', [FeedController::class, 'index']);
 });
