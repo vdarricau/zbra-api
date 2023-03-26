@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
         $user = User::factory()->create([
             'id' => self::USER_ID,
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'username' => 'valzouille',
+            'email' => 'darricau.valentin@gmail.com',
         ]);
 
         /** @var User */
