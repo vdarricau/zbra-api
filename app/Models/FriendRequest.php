@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,15 +33,20 @@ class FriendRequest extends Model
         return $this->belongsTo(User::class, 'friend_id');
     }
 
-    public static function exists(User $user, User $futureFriend): bool
+    public static function find(User $user, User $futureFriend): Builder
     {
         return 
             self::where('requester_id', $futureFriend->id)
                 ->where('friend_id', $user->id)
-                ->count() !== 0 ||
-            self::where('requester_id', $user->id)
-                ->where('friend_id', $futureFriend->id)
-                ->count() !== 0
+                ->union(
+                    self::where('requester_id', $user->id)
+                    ->where('friend_id', $futureFriend->id)
+                )
         ;
+    }
+
+    public static function exists(User $user, User $futureFriend): bool
+    {
+        return self::find($user, $futureFriend)->count() !== 0;
     }
 }

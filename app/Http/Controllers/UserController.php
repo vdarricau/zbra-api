@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FriendResource;
+use App\Http\Resources\UserFindResource;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -11,6 +13,8 @@ class UserController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
+        $user = auth()->user();
+
         $search = $request->query('search');
 
         if (null === $search || strlen($search) <= 3) {
@@ -19,10 +23,15 @@ class UserController extends Controller
 
         $search = '%'.$search.'%';
 
-        $users = User::where('username', 'LIKE', $search)
-            ->orWhere('name', 'LIKE', $search)
-            ->get();
+        $users = User::where(function (Builder $query) use ($search) {
+            $query
+                ->where('username', 'LIKE', $search)
+                ->orWhere('name', 'LIKE', $search);
+        })
+        ->where('id', '!=', $user->id)
+        ->orderBy('username')
+        ->get();
 
-        return new JsonResponse(FriendResource::collection($users));
+        return new JsonResponse(UserFindResource::collection($users));
     }
 }

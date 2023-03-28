@@ -63,7 +63,7 @@ class FriendRequestController extends Controller
 
         $friendRequest->saveOrFail();
 
-        return new JsonResponse(null, 201);
+        return new JsonResponse(new FriendRequestResource($friendRequest), 201);
     }
 
     /**
