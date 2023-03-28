@@ -82,7 +82,11 @@ class User extends Authenticatable
 
     public function hasFriendRequest(User $friend): bool
     {
-        return $this->friendRequests()->whereIn('requester_id', [$this->id, $friend->id])->count() !== 0;
+        return 
+            $this->friendRequests()
+                ->where('requester_id', $friend->id)
+                ->orWhere('friend_id', $friend->id)
+                ->count() !== 0;
     }
 
     public function zbras(): HasMany

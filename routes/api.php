@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZbraController;
 use App\Models\Zbra;
 use Illuminate\Http\Request;
@@ -38,6 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
     Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
     Route::get('/friend-requests', [FriendRequestController::class, 'index']);
+
+    Route::get('/users', [UserController::class, 'index']);
 
     Route::get('/friends', [FriendsController::class, 'index']);
     Route::get('/friends/{friend}', [FriendsController::class, 'view']);
