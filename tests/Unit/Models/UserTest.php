@@ -5,15 +5,19 @@ namespace Tests\Unit;
 use App\Models\User;
 use App\Models\Zbra;
 use App\Models\Feed;
+use App\Models\FriendRequest;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
 class UserTest extends TestCase
 {
+    /////////////////////////////////////////////////////
+    // Tests feeds()
+
     /**
      * @test
      */
-    public function should_show_zbra_if_send(): void
+    public function feeds_should_show_zbra_if_send(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -61,7 +65,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function should_show_zbra_if_received(): void
+    public function feeds_should_show_zbra_if_received(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -109,7 +113,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function should_show_just_latest_if_send_received_by_same_user(): void
+    public function feeds_should_show_just_latest_if_send_received_by_same_user(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -157,7 +161,7 @@ class UserTest extends TestCase
     /**
      * @test
      */
-    public function should_show_two_if_different_users(): void
+    public function feeds_should_show_two_if_different_users(): void
     {
         /** @var User */
         $user = User::factory()->create();

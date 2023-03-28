@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -18,17 +19,28 @@ class FriendRequest extends Model
     /**
      * @return HasOne
      */
-    public function requester(): HasOne
+    public function requester(): BelongsTo
     {
-        return $this->hasOne(User::class, 'id', 'requester_id');
+        return $this->belongsTo(User::class, 'requester_id');
     }
-
 
     /**
      * @return HasOne
      */
-    public function friendToBe(): HasOne
+    public function friendToBe(): BelongsTo
     {
-        return $this->hasOne(User::class, 'id', 'friend_id');
+        return $this->belongsTo(User::class, 'friend_id');
+    }
+
+    public static function exists(User $user, User $futureFriend): bool
+    {
+        return 
+            self::where('requester_id', $futureFriend->id)
+                ->where('friend_id', $user->id)
+                ->count() !== 0 ||
+            self::where('requester_id', $user->id)
+                ->where('friend_id', $futureFriend->id)
+                ->count() !== 0
+        ;
     }
 }

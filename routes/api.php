@@ -6,7 +6,6 @@ use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ZbraController;
-use App\Models\Zbra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

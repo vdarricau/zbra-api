@@ -38,16 +38,16 @@ class FriendRequestController extends Controller
         /** @var User */
         $currentUser = auth()->user();
 
-        if ($currentUser->isNot($friend)) {
+        if ($currentUser->is($friend)) {
             return new JsonResponse([
                 'error' => 'You cannot be zbro with yourself',
             ], 400);
         }
 
-        if ($currentUser->hasFriendRequest($friend)) {
+        if (FriendRequest::exists($currentUser, $friend)) {
             return new JsonResponse([
                 'error' => 'A zbro request already exists.',
-            ]);
+            ], 400);
         }
 
         if ($currentUser->isFriend($friend)) {
