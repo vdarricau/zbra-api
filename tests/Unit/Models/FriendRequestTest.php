@@ -73,14 +73,6 @@ class FriendRequestTest extends TestCase
             'friend_id' => $user->id,
         ]);
 
-        foreach($user->friendRequests()->get() as $friendRequest) {
-            var_dump($friendRequest->friendToBe()->getResults()->name);
-        }
-
-        foreach($futureFriend->friendRequests()->get() as $friendRequest) {
-            var_dump($friendRequest->friendToBe()->name);
-        }
-
         self::assertTrue(FriendRequest::exists($user, $futureFriend));
         self::assertTrue(FriendRequest::exists($futureFriend, $user));
     }
