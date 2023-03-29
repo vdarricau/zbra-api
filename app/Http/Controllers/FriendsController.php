@@ -7,15 +7,26 @@ use App\Http\Resources\ZbraResource;
 use App\Models\User;
 use App\Models\Zbra;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class FriendsController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         /** @var User */
         $user = auth()->user();
 
-        return new JsonResponse(FriendResource::collection($user->friends()->orderBy('friends.created_at', 'DESC')->get()));
+        $search = $request->query('search');
+
+        $search = '%'.$search.'%';
+
+        $friends = $user->friends();
+
+        if ($search) {
+            $friends = $friends->where('users.username', 'LIKE', $search);
+        }
+
+        return new JsonResponse(FriendResource::collection($friends->orderBy('users.username')->get()));
     }
 
     public function view(User $friend): JsonResponse
