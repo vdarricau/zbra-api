@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\User;
 use App\Models\Zbra;
 use App\Models\Feed;
-use App\Models\FriendRequest;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
