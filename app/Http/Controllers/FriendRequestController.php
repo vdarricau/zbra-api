@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FriendRequestResource;
 use App\Models\FriendRequest;
 use App\Models\User;
+use App\Notifications\NewFriendRequestNotification;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class FriendRequestController extends Controller
             $friendRequests = $user->requestedFriendRequests();
         } else {
             $friendRequests = $user->friendRequests();
+            $user->unreadNotifications()->where('type', NewFriendRequestNotification::class)->update(['read_at' => now()]);
         }
 
         return new JsonResponse(FriendRequestResource::collection($friendRequests->get()));
@@ -62,6 +64,8 @@ class FriendRequestController extends Controller
         $friendRequest->friendToBe()->associate($friend);
 
         $friendRequest->saveOrFail();
+
+        $friend->notify(new NewFriendRequestNotification($friendRequest));
 
         return new JsonResponse(new FriendRequestResource($friendRequest), 201);
     }
