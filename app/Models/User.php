@@ -69,22 +69,22 @@ class User extends Authenticatable
 
     public function requestedFriendRequests(): HasMany
     {
-        return $this->hasMany(FriendRequest::class, 'requester_id');
+        return $this->hasMany(FriendRequest::class, 'sender_user_id');
     }
 
     public function friendRequests(): HasMany
     {
-        return $this->hasMany(FriendRequest::class, 'friend_id');
+        return $this->hasMany(FriendRequest::class, 'receiver_user_id');
     }
 
     public function zbras(): HasMany
     {
-        return $this->hasMany(Zbra::class, 'user_receiver_id');
+        return $this->hasMany(Zbra::class, 'receiver_user_id');
     }
 
     public function sentZbras(): HasMany
     {
-        return $this->hasMany(Zbra::class, 'user_sender_id');
+        return $this->hasMany(Zbra::class, 'sender_user_id');
     }
 
     /**

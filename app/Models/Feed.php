@@ -18,7 +18,7 @@ class Feed extends Model
 
     public function friend(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'friend_id');
+        return $this->belongsTo(User::class, 'receiver_user_id');
     }
 
     public function zbra(): BelongsTo

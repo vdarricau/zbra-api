@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ZbraCreated;
+use App\Events\ZbraCreatedEvent;
 use App\Models\Feed;
 use App\Models\User;
 
@@ -11,7 +11,7 @@ class ZbraCreatedCreateFeedListener
     /**
      * Handle the event.
      */
-    public function handle(ZbraCreated $event): void
+    public function handle(ZbraCreatedEvent $event): void
     {
         $zbra = $event->zbra;
 
@@ -21,8 +21,8 @@ class ZbraCreatedCreateFeedListener
         /** @var User */
         $receiver = $zbra->receiver()->getResults();
     
-        $feed = Feed::where('user_id', $sender->id)->where('friend_id', $receiver->id)->first();
-        $feedSender = Feed::where('user_id', $receiver->id)->where('friend_id', $sender->id)->first();
+        $feed = Feed::where('user_id', $sender->id)->where('receiver_user_id', $receiver->id)->first();
+        $feedSender = Feed::where('user_id', $receiver->id)->where('receiver_user_id', $sender->id)->first();
 
         if (null === $feed) {
             $feed = new Feed();

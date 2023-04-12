@@ -33,8 +33,8 @@ class UserTest extends TestCase
 
         $zbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $user->id,
-                'user_receiver_id' => $friendWithZbra->id,
+                'sender_user_id' => $user->id,
+                'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
             ])
         ;
@@ -44,8 +44,8 @@ class UserTest extends TestCase
 
         $mostRecentZbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $user->id,
-                'user_receiver_id' => $friendWithZbra->id,
+                'sender_user_id' => $user->id,
+                'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'most recent zbra',
             ])
         ;
@@ -81,8 +81,8 @@ class UserTest extends TestCase
 
         $zbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $friendWithZbra->id,
-                'user_receiver_id' => $user->id,
+                'sender_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $user->id,
                 'message' => 'zbra',
             ])
         ;
@@ -92,8 +92,8 @@ class UserTest extends TestCase
 
         $mostRecentZbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $friendWithZbra->id,
-                'user_receiver_id' => $user->id,
+                'sender_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ])
         ;
@@ -129,8 +129,8 @@ class UserTest extends TestCase
 
         $zbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $user->id,
-                'user_receiver_id' => $friendWithZbra->id,
+                'sender_user_id' => $user->id,
+                'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
             ])
         ;
@@ -140,8 +140,8 @@ class UserTest extends TestCase
 
         $mostRecentZbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $friendWithZbra->id,
-                'user_receiver_id' => $user->id,
+                'sender_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ])
         ;
@@ -177,8 +177,8 @@ class UserTest extends TestCase
 
         $zbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $user->id,
-                'user_receiver_id' => $friendWithZbra->id,
+                'sender_user_id' => $user->id,
+                'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
             ])
         ;
@@ -197,8 +197,8 @@ class UserTest extends TestCase
 
         $mostRecentZbra = Zbra::factory()
             ->create([
-                'user_sender_id' => $anotherFriendWithZbra->id,
-                'user_receiver_id' => $user->id,
+                'sender_user_id' => $anotherFriendWithZbra->id,
+                'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ])
         ;

@@ -16,8 +16,8 @@ class FriendRequestResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'requester' => FriendResource::make($this->requester()->getResults()),
-            'friendToBe' => FriendResource::make($this->friendToBe()->getResults()),
+            'requester' => FriendResource::make($this->sender()->getResults()),
+            'friendToBe' => FriendResource::make($this->receiver()->getResults()),
         ];
     }
 }

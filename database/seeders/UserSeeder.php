@@ -31,15 +31,6 @@ class UserSeeder extends Seeder
             'email' => 'friend@example.com',
         ]);
 
-        /** @var User */
-        $friendRequestUser = User::factory()->create([
-            'name' => 'User Friend request',
-            'email' => 'friend.request@example.com',
-        ]);
-
-        /** @var User */
-        $userRequestFriend = User::factory()->create();
-
         User::factory()->create([
             'id' => '988daadd-a5eb-4be5-bab7-07106b644de7',
             'name' => 'Friendless user',
@@ -48,21 +39,20 @@ class UserSeeder extends Seeder
 
         $user->addFriend($friend);
 
-        $friends = User::factory(10)->create();
-
-        array_map(function (User $friend) use ($user) {
-            $user->addFriend($friend);
-        }, $friends->all());
-
         (new FriendRequest([
             'id' => '988daadd-a5eb-4be5-bab7-07106b644de7',
-            'requester_id' => $user->id,
-            'friend_id' => $friendRequestUser->id,
+            'sender_user_id' => $user->id,
+            'receiver_user_id' => User::factory()->create()->id,
         ]))->save();
 
         (new FriendRequest([
-            'requester_id' => $userRequestFriend->id,
-            'friend_id' => $user->id,
+            'sender_user_id' => User::factory()->create()->id,
+            'receiver_user_id' => $user->id,
+        ]))->save();
+
+        (new FriendRequest([
+            'sender_user_id' => User::factory()->create()->id,
+            'receiver_user_id' => $user->id,
         ]))->save();
     }
 }

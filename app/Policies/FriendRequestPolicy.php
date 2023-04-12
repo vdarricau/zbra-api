@@ -13,8 +13,8 @@ class FriendRequestPolicy
     public function view(User $user, FriendRequest $friendRequest): bool
     {
         return 
-            $friendRequest->requester()->is($user) || 
-            $friendRequest->friendToBe()->is($user)
+            $friendRequest->sender()->is($user) || 
+            $friendRequest->receiver()->is($user)
         ;
     }
 
@@ -24,8 +24,8 @@ class FriendRequestPolicy
     public function update(User $user, FriendRequest $friendRequest): bool
     {
         return 
-            $friendRequest->requester()->is($user) || 
-            $friendRequest->friendToBe()->is($user)
+            $friendRequest->sender()->is($user) || 
+            $friendRequest->receiver()->is($user)
         ;
     }
 
@@ -35,8 +35,8 @@ class FriendRequestPolicy
     public function delete(User $user, FriendRequest $friendRequest): bool
     {
         return 
-            $friendRequest->requester()->is($user) || 
-            $friendRequest->friendToBe()->is($user)
+            $friendRequest->sender()->is($user) || 
+            $friendRequest->receiver()->is($user)
         ;
     }
 }

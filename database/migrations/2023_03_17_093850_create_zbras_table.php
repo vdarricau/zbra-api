@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('zbras', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class, 'user_sender_id');
-            $table->foreignIdFor(User::class, 'user_receiver_id');
+            $table->foreignIdFor(User::class, 'sender_user_id');
+            $table->foreignIdFor(User::class, 'receiver_user_id');
             $table->string('message');
             $table->enum('status', ['sent', 'received', 'read'])->default('sent');
             $table->timestamps();

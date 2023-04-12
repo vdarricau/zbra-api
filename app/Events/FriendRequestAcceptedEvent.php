@@ -2,17 +2,17 @@
 
 namespace App\Events;
 
-use App\Models\Zbra;
+use App\Models\FriendRequest;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ZbraCreated
+class FriendRequestAcceptedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Zbra $zbra) {}
+    public function __construct(public FriendRequest $friendRequest) {}
 }

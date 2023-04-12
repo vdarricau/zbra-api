@@ -12,9 +12,6 @@ use Illuminate\Http\Request;
 
 class FriendRequestController extends Controller
 {
-    /**
-     * @return JsonResponse
-     */
     public function index(Request $request): JsonResponse
     {
         /** @var User */
@@ -25,16 +22,13 @@ class FriendRequestController extends Controller
         if ($filter === FriendRequest::REQUESTED) {
             $friendRequests = $user->requestedFriendRequests();
         } else {
-            $friendRequests = $user->friendRequests();
+            $friendRequests = $user->friendRequests()->where('status', FriendRequest::STATUS_SENT);
             $user->unreadNotifications()->where('type', NewFriendRequestNotification::class)->update(['read_at' => now()]);
         }
 
         return new JsonResponse(FriendRequestResource::collection($friendRequests->get()));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(User $friend): JsonResponse
     {
         /** @var User */
@@ -60,8 +54,8 @@ class FriendRequestController extends Controller
 
         $friendRequest = new FriendRequest();
         
-        $friendRequest->requester()->associate($currentUser);
-        $friendRequest->friendToBe()->associate($friend);
+        $friendRequest->sender()->associate($currentUser);
+        $friendRequest->receiver()->associate($friend);
 
         $friendRequest->saveOrFail();
 
@@ -70,9 +64,6 @@ class FriendRequestController extends Controller
         return new JsonResponse(new FriendRequestResource($friendRequest), 201);
     }
 
-    /**
-     * @var FriendRequest $friendRequest
-     */
     public function accept(FriendRequest $friendRequest): JsonResponse
     {        
         /** @var User */
@@ -81,11 +72,23 @@ class FriendRequestController extends Controller
         Gate::inspect('view', $friendRequest);
 
         /** @var User */
-        $newFriend = $friendRequest->requester()->getResults();
+        $newFriend = $friendRequest->sender()->getResults();
         
         $user->addFriend($newFriend);
 
-        $friendRequest->delete();
+        $friendRequest->accept();
+
+        return new JsonResponse(null, 204);
+    }
+
+    public function cancel(FriendRequest $friendRequest): JsonResponse
+    {
+        /** @var User */
+        $user = auth()->user();
+
+        Gate::inspect('view', $friendRequest);
+
+        $friendRequest->cancel();
 
         return new JsonResponse(null, 204);
     }

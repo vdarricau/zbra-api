@@ -22,13 +22,13 @@ class FriendRequestTest extends TestCase
         $randomFriendRequestUser = User::factory()->create();
 
         FriendRequest::factory()->create([
-            'requester_id' => $user->id,
-            'friend_id' => $randomFriendRequestUser->id,
+            'sender_user_id' => $user->id,
+            'receiver_user_id' => $randomFriendRequestUser->id,
         ]);
 
         FriendRequest::factory()->create([
-            'requester_id' => $randomFriendRequestUser->id,
-            'friend_id' => $user->id,
+            'sender_user_id' => $randomFriendRequestUser->id,
+            'receiver_user_id' => $user->id,
         ]);
 
         self::assertFalse(FriendRequest::exists($user, $futureFriend));
@@ -38,7 +38,7 @@ class FriendRequestTest extends TestCase
     /**
      * @test
      */
-    public function hasFriendRequest_should_return_true_if_user_is_requester(): void
+    public function hasFriendRequest_should_return_true_if_user_is_sender(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -47,8 +47,8 @@ class FriendRequestTest extends TestCase
         $futureFriend = User::factory()->create();
 
         FriendRequest::factory()->create([
-            'requester_id' => $user->id,
-            'friend_id' => $futureFriend->id,
+            'sender_user_id' => $user->id,
+            'receiver_user_id' => $futureFriend->id,
         ]);
 
         self::assertTrue(FriendRequest::exists($user, $futureFriend));
@@ -58,7 +58,7 @@ class FriendRequestTest extends TestCase
     /**
      * @test
      */
-    public function hasFriendRequest_should_return_true_if_user_is_friendsToBe(): void
+    public function hasFriendRequest_should_return_true_if_user_is_receiver(): void
     {
         /** @var User */
         $user = User::factory()->create([
@@ -69,8 +69,8 @@ class FriendRequestTest extends TestCase
         $futureFriend = User::factory()->create();
 
         FriendRequest::factory()->create([
-            'requester_id' => $futureFriend->id,
-            'friend_id' => $user->id,
+            'sender_user_id' => $futureFriend->id,
+            'receiver_user_id' => $user->id,
         ]);
 
         self::assertTrue(FriendRequest::exists($user, $futureFriend));

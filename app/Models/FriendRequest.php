@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\FriendRequestAcceptedEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,30 +18,64 @@ class FriendRequest extends Model
     public const REQUESTED = 'requested';
     public const PENDING = 'pending';
 
+    public const STATUS_SENT = 'sent';
+    public const STATUS_ACCEPTED = 'accepted';
+    public const STATUS_CANCELLED = 'cancelled';
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'status',
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'accepted' => FriendRequestAcceptedEvent::class,
+    ];
+
     /**
      * @return HasOne
      */
-    public function requester(): BelongsTo
+    public function sender(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'requester_id');
+        return $this->belongsTo(User::class, 'sender_user_id');
     }
 
     /**
      * @return HasOne
      */
-    public function friendToBe(): BelongsTo
+    public function receiver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'friend_id');
+        return $this->belongsTo(User::class, 'receiver_user_id');
+    }
+
+    public function accept(): void
+    {
+        $this->update(['status' => self::STATUS_ACCEPTED]);
+        $this->fireModelEvent('accepted');
+    }
+
+    public function cancel(): void
+    {
+        $this->update(['status' => self::STATUS_CANCELLED]);
+        $this->fireModelEvent('cancelled');
     }
 
     public static function find(User $user, User $futureFriend): Builder
     {
         return 
-            self::where('requester_id', $futureFriend->id)
-                ->where('friend_id', $user->id)
+            self::where('sender_user_id', $futureFriend->id)
+                ->where('receiver_user_id', $user->id)
                 ->union(
-                    self::where('requester_id', $user->id)
-                    ->where('friend_id', $futureFriend->id)
+                    self::where('sender_user_id', $user->id)
+                    ->where('receiver_user_id', $futureFriend->id)
                 )
         ;
     }

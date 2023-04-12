@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\ZbraCreated;
+use App\Events\ZbraCreatedEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,24 +26,24 @@ class Zbra extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        'saved' => ZbraCreated::class,
+        'saved' => ZbraCreatedEvent::class,
     ];
 
     public function sender(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_sender_id');
+        return $this->belongsTo(User::class, 'sender_user_id');
     }
 
     public function receiver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_receiver_id');
+        return $this->belongsTo(User::class, 'receiver_user_id');
     }
 
     public static function getExchangedZbras(User $user, User $friend): Builder
     {
         return 
-            Zbra::whereIn('user_sender_id', [$user->id, $friend->id])
-            ->whereIn('user_receiver_id', [$user->id, $friend->id])
+            Zbra::whereIn('sender_user_id', [$user->id, $friend->id])
+            ->whereIn('receiver_user_id', [$user->id, $friend->id])
         ;
     }
 }

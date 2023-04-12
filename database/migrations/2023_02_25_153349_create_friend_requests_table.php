@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('friend_requests', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(User::class, 'requester_id');
-            $table->foreignIdFor(User::class, 'friend_id');
+            $table->foreignIdFor(User::class, 'sender_user_id');
+            $table->foreignIdFor(User::class, 'receiver_user_id');
+            $table->enum('status', ['sent', 'accepted', 'cancelled'])->default('sent');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -35,13 +35,15 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
         return $request->user();
     });
 
-    // Friends
-    Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
-    Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
-    Route::get('/friend-requests', [FriendRequestController::class, 'index']);
-
     Route::get('/users', [UserController::class, 'index']);
 
+    // Friend Requests
+    Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
+    Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
+    Route::post('/friend-requests/{friendRequest}/cancel', [FriendRequestController::class, 'cancel']);
+    Route::get('/friend-requests', [FriendRequestController::class, 'index']);
+    
+    // Friends
     Route::get('/friends', [FriendsController::class, 'index']);
     Route::get('/friends/{friend}', [FriendsController::class, 'view']);
     Route::get('/friends/{friend}/zbras', [FriendsController::class, 'zbras']);

@@ -32,7 +32,7 @@ class NewFriendRequestNotification extends Notification
     public function toArray(object $notifiable): array
     {
         /** @var User */
-        $friend = $this->friendRequest->requester()->getResults();
+        $friend = $this->friendRequest->sender()->getResults();
 
         return [
             'id' => $this->friendRequest->id,

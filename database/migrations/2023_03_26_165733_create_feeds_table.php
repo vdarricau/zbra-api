@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'user_id');
-            $table->foreignIdFor(User::class, 'friend_id');
-            $table->foreignIdFor(Zbra::class, 'zbra_id');
+            $table->foreignIdFor(User::class, 'receiver_user_id');
+            $table->foreignIdFor(Zbra::class, 'zbra_id')->nullable();
             $table->timestamps();
         });
     }
