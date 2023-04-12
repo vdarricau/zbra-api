@@ -2,16 +2,16 @@
 
 namespace App\Listeners;
 
-use App\Events\ZbraSaved;
+use App\Events\ZbraCreated;
 use App\Models\Feed;
 use App\Models\User;
 
-class ZbraSavedCreateFeedListener
+class ZbraCreatedCreateFeedListener
 {
     /**
      * Handle the event.
      */
-    public function handle(ZbraSaved $event): void
+    public function handle(ZbraCreated $event): void
     {
         $zbra = $event->zbra;
 
