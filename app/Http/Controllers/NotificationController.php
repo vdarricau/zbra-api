@@ -11,6 +11,8 @@ class NotificationController extends Controller
 {
     public function friendRequests(): JsonResponse
     {
+        // @TODO use websocket for realtime notification
+
         /** @var User */
         $user = auth()->user();
 
