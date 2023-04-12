@@ -46,4 +46,14 @@ class Zbra extends Model
             ->whereIn('receiver_user_id', [$user->id, $friend->id])
         ;
     }
+
+    public static function getCountUnreadZbras(User $user, User $friend): int
+    {
+        return
+            Zbra::where('sender_user_id', $friend->id)
+            ->where('receiver_user_id', $user->id)
+            ->whereNot('status', Zbra::STATUS_READ)
+            ->count()
+        ;
+    }
 }

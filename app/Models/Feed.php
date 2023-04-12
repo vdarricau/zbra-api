@@ -25,4 +25,9 @@ class Feed extends Model
     {
         return $this->belongsTo(Zbra::class, 'zbra_id');
     }
+
+    public function countUnreadZbras(): int
+    {
+        return Zbra::getCountUnreadZbras($this->user()->getResults(), $this->friend()->getResults());
+    }
 }

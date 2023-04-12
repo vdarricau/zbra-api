@@ -18,6 +18,7 @@ class FeedResource extends JsonResource
             'id' => $this->id,
             'friend' => FriendResource::make($this->friend()->getResults()),
             'zbra' => ZbraResource::make($this->zbra()->getResults()),
+            'countUnreadZbras' => $this->countUnreadZbras(),
             'updatedAt' => $this->updated_at,
         ];
     }

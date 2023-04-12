@@ -57,6 +57,9 @@ class FriendsController extends Controller
             ], 403);
         }
 
-        return new JsonResponse(ZbraResource::collection(Zbra::getExchangedZbras($user, $friend)->get()));
+        $zbras = Zbra::getExchangedZbras($user, $friend);
+        $zbras->update(['status' => Zbra::STATUS_READ]);
+
+        return new JsonResponse(ZbraResource::collection($zbras->get()));
     }
 }
