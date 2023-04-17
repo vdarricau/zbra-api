@@ -9,6 +9,8 @@ use App\Models\User;
 class ZbraCreatedCreateFeedListener
 {
     /**
+     * @TODO test this shit
+     * 
      * Handle the event.
      */
     public function handle(ZbraCreatedEvent $event): void
@@ -36,9 +38,9 @@ class ZbraCreatedCreateFeedListener
             $feedSender->friend()->associate($sender);
         }
 
-        $feed->zbra_id = $zbra->id;
-        $feedSender->zbra_id = $zbra->id;
-    
+        $feed->zbra()->associate($zbra);
+        $feedSender->zbra()->associate($zbra);
+
         $feed->save();
         $feedSender->save();
     }

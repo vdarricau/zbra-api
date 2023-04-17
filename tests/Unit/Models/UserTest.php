@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Models;
 
+use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
 use App\Models\User;
 use App\Models\Zbra;
 use App\Models\Feed;
@@ -213,5 +214,41 @@ class UserTest extends TestCase
 
         self::assertTrue($feed->zbra()->is($zbra));
         self::assertTrue($second->zbra()->is($mostRecentZbra));
+    }
+
+    /**
+     * @test
+     */
+    public function sendZbra_should_throw_exception_if_not_friends(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        
+        /** @var User */
+        $notAFriend = User::factory()->create();
+
+        $this->expectException(ZbraCannotBeSentToNonFriendsException::class);
+
+        $user->sendZbra($notAFriend, 'Zbralicious');
+    }
+
+    /**
+     * @test
+     */
+    public function sendZbra_should_create_zbra(): void
+    {
+        /** @var User */
+        $user = User::factory()->create();
+        
+        /** @var User */
+        $friend = User::factory()->create();
+
+        $user->addFriend($friend);
+
+        $zbra = $user->sendZbra($friend, 'Zbralicious');
+
+        self::assertSame('Zbralicious', $zbra->message);
+        self::assertTrue($user->is($zbra->sender()->getResults()));
+        self::assertTrue($friend->is($zbra->receiver()->getResults()));
     }
 }

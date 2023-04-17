@@ -6,14 +6,10 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+// use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
-    /**
-     * @var Request $request
-     * @return Response 
-     */
     public function register(Request $request): Response
     {
         $fields = $request->validate([
@@ -47,9 +43,6 @@ class AuthController extends Controller
 
     /**
      * @todo add possibility to login by username?
-     * 
-     * @var Request $request
-     * @return Response 
      */
     public function login(Request $request): Response
     {
@@ -58,7 +51,7 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        /** @var User */
+        /** @var User|null */
         $user = User::where('email', $fields['email'])->first();
 
         if (!$user || false === Hash::check($fields['password'], $user->getAuthPassword())) {
@@ -78,7 +71,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @return
+     * @return string[]
      */
     public function logout(): array
     {

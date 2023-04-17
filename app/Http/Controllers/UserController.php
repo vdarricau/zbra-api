@@ -13,11 +13,16 @@ class UserController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
+        /** @var User */
         $user = auth()->user();
 
         $search = $request->query('search');
 
-        if (null === $search || strlen($search) <= 3) {
+        if (
+            null === $search ||
+            false === is_string($search) ||
+            strlen($search) <= 3
+        ) {
             return new JsonResponse([]); // Not allowing to look through all the users, gotta search them!
         }
 

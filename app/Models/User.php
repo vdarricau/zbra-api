@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +13,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+/**
+ * @property string $id
+ * @property string $username
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ */
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasUuids;
@@ -47,6 +55,37 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsToMany<User>
+     */
+    public function friends(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_connecting_id', 'friend_accepting_connection_id')->withTimestamps();
+    }
+
+    /**
+     * @return HasMany<FriendRequest>
+     */
+    public function requestedFriendRequests(): HasMany
+    {
+        return $this->hasMany(FriendRequest::class, 'sender_user_id');
+    }
+
+    /**
+     * @return HasMany<FriendRequest>
+     */    public function friendRequests(): HasMany
+    {
+        return $this->hasMany(FriendRequest::class, 'receiver_user_id');
+    }
+
+    /**
+     * @return HasMany<Feed>
+     */
+    public function feeds(): HasMany
+    {
+        return $this->hasMany(Feed::class, 'user_id');
+    }
+
     public function addFriend(User $newFriend): void
     {
         if ($newFriend->is($this)) {
@@ -57,41 +96,25 @@ class User extends Authenticatable
         $newFriend->friends()->attach($this);
     }
 
-    public function friends(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'friends', 'friend_connecting_id', 'friend_accepting_connection_id')->withTimestamps();
-    }
-
     public function isFriend(User $friend): bool
     {
         return $this->friends()->where('friend_accepting_connection_id', $friend->id)->count() !== 0;
     }
 
-    public function requestedFriendRequests(): HasMany
+    public function sendZbra(User $friend, string $message): Zbra
     {
-        return $this->hasMany(FriendRequest::class, 'sender_user_id');
-    }
+        if(false === $this->isFriend($friend)) {
+            throw new ZbraCannotBeSentToNonFriendsException();
+        }
 
-    public function friendRequests(): HasMany
-    {
-        return $this->hasMany(FriendRequest::class, 'receiver_user_id');
-    }
+        $zbra = new Zbra();
 
-    public function zbras(): HasMany
-    {
-        return $this->hasMany(Zbra::class, 'receiver_user_id');
-    }
+        $zbra->message = $message;
+        $zbra->receiver()->associate($friend);
+        $zbra->sender()->associate($this);
 
-    public function sentZbras(): HasMany
-    {
-        return $this->hasMany(Zbra::class, 'sender_user_id');
-    }
+        $zbra->saveOrFail();
 
-    /**
-     * @return HasMany
-     */
-    public function feeds(): HasMany
-    {
-        return $this->hasMany(Feed::class, 'user_id');
+        return $zbra;
     }
 }

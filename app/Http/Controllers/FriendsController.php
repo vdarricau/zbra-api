@@ -18,11 +18,10 @@ class FriendsController extends Controller
 
         $search = $request->query('search');
 
-        $search = '%'.$search.'%';
-
         $friends = $user->friends();
 
-        if ($search) {
+        if (is_string($search)) {
+            $search = '%'.$search.'%';
             $friends = $friends->where('users.username', 'LIKE', $search);
         }
 

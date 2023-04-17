@@ -11,6 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property string $id
+ * @property string $status
+ */
 class FriendRequest extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
@@ -34,14 +38,14 @@ class FriendRequest extends Model
     /**
      * The event map for the model.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $dispatchesEvents = [
         'accepted' => FriendRequestAcceptedEvent::class,
     ];
 
     /**
-     * @return HasOne
+     * @return BelongsTo<User,FriendRequest>
      */
     public function sender(): BelongsTo
     {
@@ -49,7 +53,7 @@ class FriendRequest extends Model
     }
 
     /**
-     * @return HasOne
+     * @return BelongsTo<User,FriendRequest>
      */
     public function receiver(): BelongsTo
     {
@@ -68,6 +72,11 @@ class FriendRequest extends Model
         $this->fireModelEvent('cancelled');
     }
 
+    /**
+     * @param User $user
+     * @param User $futureFriend
+     * @return Builder<FriendRequest>
+     */
     public static function find(User $user, User $futureFriend): Builder
     {
         return 

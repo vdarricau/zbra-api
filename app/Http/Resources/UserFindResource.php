@@ -19,7 +19,8 @@ class UserFindResource extends JsonResource
         /** @var User */
         $user = $request->user();
 
-        $friendRequest = FriendRequest::find($user, $this->resource)->get()->first();
+        /** @var FriendRequest */
+        $friendRequest = FriendRequest::find($user, $this->resource)->first();
 
         return [
             'id' => $this->id,
