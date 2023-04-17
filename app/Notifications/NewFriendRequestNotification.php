@@ -4,7 +4,6 @@ namespace App\Notifications;
 
 use App\Models\FriendRequest;
 use App\Models\User;
-use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
 class NewFriendRequestNotification extends Notification
@@ -12,7 +11,9 @@ class NewFriendRequestNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(private FriendRequest $friendRequest) {}
+    public function __construct(private FriendRequest $friendRequest)
+    {
+    }
 
     /**
      * Get the notification's delivery channels.

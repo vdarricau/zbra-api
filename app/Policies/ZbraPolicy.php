@@ -12,9 +12,8 @@ class ZbraPolicy
      */
     public function view(User $user, Zbra $zbra): bool
     {
-        return 
-            $zbra->receiver()->is($user) || 
-            $zbra->sender()->is($user)
-        ;
+        return
+            $zbra->receiver()->is($user) ||
+            $zbra->sender()->is($user);
     }
 }

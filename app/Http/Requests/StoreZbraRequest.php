@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreZbraRequest extends FormRequest
 {
-     /**
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, string>

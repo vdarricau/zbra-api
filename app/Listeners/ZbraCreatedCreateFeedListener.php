@@ -10,7 +10,7 @@ class ZbraCreatedCreateFeedListener
 {
     /**
      * @TODO test this shit
-     * 
+     *
      * Handle the event.
      */
     public function handle(ZbraCreatedEvent $event): void
@@ -19,10 +19,10 @@ class ZbraCreatedCreateFeedListener
 
         /** @var User */
         $sender = $zbra->sender()->getResults();
-        
+
         /** @var User */
         $receiver = $zbra->receiver()->getResults();
-    
+
         $feed = Feed::where('user_id', $sender->id)->where('receiver_user_id', $receiver->id)->first();
         $feedSender = Feed::where('user_id', $receiver->id)->where('receiver_user_id', $sender->id)->first();
 

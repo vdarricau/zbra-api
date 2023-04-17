@@ -3,9 +3,9 @@
 namespace Tests\Unit\Models;
 
 use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
+use App\Models\Feed;
 use App\Models\User;
 use App\Models\Zbra;
-use App\Models\Feed;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
@@ -21,7 +21,7 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        
+
         /** @var User */
         $friendWithZbra = User::factory()->create();
         /** @var User */
@@ -37,8 +37,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $user->id,
                 'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
-            ])
-        ;
+            ]);
 
         $zbra->setCreatedAt(Date::yesterday());
         $zbra->save();
@@ -48,8 +47,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $user->id,
                 'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'most recent zbra',
-            ])
-        ;
+            ]);
 
         $feeds = $user->feeds()->get();
 
@@ -61,7 +59,7 @@ class UserTest extends TestCase
         self::assertFalse($feed->zbra()->is($zbra));
         self::assertTrue($feed->zbra()->is($mostRecentZbra));
     }
-    
+
     /**
      * @test
      */
@@ -85,8 +83,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $friendWithZbra->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'zbra',
-            ])
-        ;
+            ]);
 
         $zbra->setCreatedAt(Date::yesterday());
         $zbra->save();
@@ -96,9 +93,8 @@ class UserTest extends TestCase
                 'sender_user_id' => $friendWithZbra->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
-            ])
-        ;
-        
+            ]);
+
         $feeds = $user->feeds()->get();
 
         self::assertCount(1, $feeds);
@@ -117,7 +113,7 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        
+
         /** @var User */
         $friendWithZbra = User::factory()->create();
         /** @var User */
@@ -133,8 +129,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $user->id,
                 'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
-            ])
-        ;
+            ]);
 
         $zbra->setCreatedAt(Date::yesterday());
         $zbra->save();
@@ -144,8 +139,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $friendWithZbra->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
-            ])
-        ;
+            ]);
 
         $feeds = $user->feeds()->get();
 
@@ -165,7 +159,7 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        
+
         /** @var User */
         $friendWithZbra = User::factory()->create();
         /** @var User */
@@ -181,8 +175,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $user->id,
                 'receiver_user_id' => $friendWithZbra->id,
                 'message' => 'zbra',
-            ])
-        ;
+            ]);
 
         $zbra->setCreatedAt(Date::yesterday());
         $zbra->save();
@@ -201,8 +194,7 @@ class UserTest extends TestCase
                 'sender_user_id' => $anotherFriendWithZbra->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
-            ])
-        ;
+            ]);
 
         $feeds = $user->feeds()->get();
 
@@ -223,7 +215,7 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        
+
         /** @var User */
         $notAFriend = User::factory()->create();
 
@@ -239,7 +231,7 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
-        
+
         /** @var User */
         $friend = User::factory()->create();
 

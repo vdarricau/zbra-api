@@ -9,6 +9,7 @@ use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
     public const USER_ID = '35ff314e-1b05-4214-9cc3-b5ff924debbb';
+
     public const OTHER_USER_ID = '988dc77b-25cd-492e-8bbc-32ab6cbe79af';
 
     /**

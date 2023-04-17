@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Exceptions;
+
 use RuntimeException;
 
 class ZbraCannotBeSentToNonFriendsException extends RuntimeException

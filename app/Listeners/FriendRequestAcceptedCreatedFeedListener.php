@@ -17,10 +17,10 @@ class FriendRequestAcceptedCreatedFeedListener
 
         /** @var User */
         $from = $friendRequest->sender()->getResults();
-        
+
         /** @var User */
         $to = $friendRequest->receiver()->getResults();
-    
+
         $feed = new Feed();
         $feed->user()->associate($from);
         $feed->friend()->associate($to);
@@ -28,7 +28,7 @@ class FriendRequestAcceptedCreatedFeedListener
         $feedSender = new Feed();
         $feedSender->user()->associate($to);
         $feedSender->friend()->associate($from);
-    
+
         $feed->save();
         $feedSender->save();
     }

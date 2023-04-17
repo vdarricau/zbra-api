@@ -7,7 +7,6 @@ use App\Http\Requests\StoreZbraRequest;
 use App\Http\Resources\ZbraResource;
 use App\Models\User;
 use App\Models\Zbra;
-use Exception;
 use Illuminate\Http\JsonResponse;
 
 class ZbraController extends Controller
@@ -18,7 +17,7 @@ class ZbraController extends Controller
 
         /** @var string[] */
         $validatedParams = $request->validated();
-        
+
         $message = $validatedParams['message'];
         $friendId = $validatedParams['friendId'];
 

@@ -20,3 +20,25 @@ Start local development server:
 ```bash
 php artisan serve
 ```
+
+## Commands
+
+### Tests
+Run tests
+```bash
+php artisan test
+```
+
+### Duster
+
+Duster is a combination of the following linters: TLing, PHP_CodeSniffer, PHP CS Fixer, Pint, [Larastan](https://laravel-news.com/running-phpstan-on-max-with-laravel).
+
+Run Linter
+```bash
+composer duster
+```
+
+Run fixer
+```bash
+composer duster-fix
+```

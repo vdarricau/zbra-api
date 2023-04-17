@@ -14,5 +14,7 @@ class ZbraCreatedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public Zbra $zbra) {}
+    public function __construct(public Zbra $zbra)
+    {
+    }
 }

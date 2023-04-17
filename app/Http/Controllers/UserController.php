@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FriendResource;
 use App\Http\Resources\UserFindResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;

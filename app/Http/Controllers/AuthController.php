@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+
 // use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -54,7 +55,7 @@ class AuthController extends Controller
         /** @var User|null */
         $user = User::where('email', $fields['email'])->first();
 
-        if (!$user || false === Hash::check($fields['password'], $user->getAuthPassword())) {
+        if (! $user || false === Hash::check($fields['password'], $user->getAuthPassword())) {
             return response([
                 'message' => 'Bad creds',
             ], 401);
@@ -77,7 +78,7 @@ class AuthController extends Controller
     {
         /** @var User */
         $user = auth()->user();
-        
+
         $user->tokens()->delete();
 
         return [

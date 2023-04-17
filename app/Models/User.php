@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use LogicException;
 
 /**
  * @property string $id
@@ -73,7 +74,8 @@ class User extends Authenticatable
 
     /**
      * @return HasMany<FriendRequest>
-     */    public function friendRequests(): HasMany
+     */
+    public function friendRequests(): HasMany
     {
         return $this->hasMany(FriendRequest::class, 'receiver_user_id');
     }
@@ -89,7 +91,7 @@ class User extends Authenticatable
     public function addFriend(User $newFriend): void
     {
         if ($newFriend->is($this)) {
-            throw new \LogicException('Can\'t add yourself as your friend!');
+            throw new LogicException('Can\'t add yourself as your friend!');
         }
 
         $this->friends()->attach($newFriend);
@@ -103,8 +105,8 @@ class User extends Authenticatable
 
     public function sendZbra(User $friend, string $message): Zbra
     {
-        if(false === $this->isFriend($friend)) {
-            throw new ZbraCannotBeSentToNonFriendsException();
+        if (false === $this->isFriend($friend)) {
+            throw new ZbraCannotBeSentToNonFriendsException;
         }
 
         $zbra = new Zbra();

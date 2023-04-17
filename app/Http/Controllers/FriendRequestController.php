@@ -6,9 +6,9 @@ use App\Http\Resources\FriendRequestResource;
 use App\Models\FriendRequest;
 use App\Models\User;
 use App\Notifications\NewFriendRequestNotification;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class FriendRequestController extends Controller
 {
@@ -53,7 +53,7 @@ class FriendRequestController extends Controller
         }
 
         $friendRequest = new FriendRequest();
-        
+
         $friendRequest->sender()->associate($currentUser);
         $friendRequest->receiver()->associate($friend);
 
@@ -65,7 +65,7 @@ class FriendRequestController extends Controller
     }
 
     public function accept(FriendRequest $friendRequest): JsonResponse
-    {        
+    {
         /** @var User */
         $user = auth()->user();
 
@@ -73,7 +73,7 @@ class FriendRequestController extends Controller
 
         /** @var User */
         $newFriend = $friendRequest->sender()->getResults();
-        
+
         $user->addFriend($newFriend);
 
         $friendRequest->accept();

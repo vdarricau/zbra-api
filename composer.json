@@ -20,7 +20,8 @@
         "nunomaduro/collision": "^7.0",
         "nunomaduro/larastan": "^2.5",
         "phpunit/phpunit": "^10.0",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "tightenco/duster": "^1.2"
     },
     "autoload": {
         "psr-4": {
@@ -35,8 +36,11 @@
         }
     },
     "scripts": {
-        "phpstan": [
-            "vendor/bin/phpstan analyse"
+        "duster": [
+            "vendor/bin/duster lint"
+        ],
+        "duster-fix": [
+            "vendor/bin/duster fix"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

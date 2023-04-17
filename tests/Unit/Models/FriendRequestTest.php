@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Models;
 
-use App\Models\User;
 use App\Models\FriendRequest;
+use App\Models\User;
 use Tests\TestCase;
 
 class FriendRequestTest extends TestCase

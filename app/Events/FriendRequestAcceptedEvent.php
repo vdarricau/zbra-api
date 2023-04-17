@@ -14,5 +14,7 @@ class FriendRequestAcceptedEvent
     /**
      * Create a new event instance.
      */
-    public function __construct(public FriendRequest $friendRequest) {}
+    public function __construct(public FriendRequest $friendRequest)
+    {
+    }
 }

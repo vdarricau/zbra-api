@@ -21,40 +21,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], static function (): void {
-    Route::get('/test', static function(): string {
+    Route::get('test', static function (): string {
         return 'test';
     });
 
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('logout', [AuthController::class, 'logout']);
 
-    Route::get('/user', static function (Request $request) {
+    Route::get('user', static function (Request $request) {
         return $request->user();
     });
 
-    Route::get('/users', [UserController::class, 'index']);
+    Route::get('users', [UserController::class, 'index']);
 
     // Friend Requests
-    Route::post('/users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
-    Route::post('/friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
-    Route::post('/friend-requests/{friendRequest}/cancel', [FriendRequestController::class, 'cancel']);
-    Route::get('/friend-requests', [FriendRequestController::class, 'index']);
-    
+    Route::post('users/{friend}/friend-requests', [FriendRequestController::class, 'store']);
+    Route::post('friend-requests/{friendRequest}/accept', [FriendRequestController::class, 'accept']);
+    Route::post('friend-requests/{friendRequest}/cancel', [FriendRequestController::class, 'cancel']);
+    Route::get('friend-requests', [FriendRequestController::class, 'index']);
+
     // Friends
-    Route::get('/friends', [FriendsController::class, 'index']);
-    Route::get('/friends/{friend}', [FriendsController::class, 'view']);
-    Route::get('/friends/{friend}/zbras', [FriendsController::class, 'zbras']);
+    Route::get('friends', [FriendsController::class, 'index']);
+    Route::get('friends/{friend}', [FriendsController::class, 'view']);
+    Route::get('friends/{friend}/zbras', [FriendsController::class, 'zbras']);
 
     // Zbras
-    Route::get('/zbras/{zbra}', [ZbraController::class, 'show']);
-    Route::post('/zbras', [ZbraController::class, 'store']);
+    Route::get('zbras/{zbra}', [ZbraController::class, 'show']);
+    Route::post('zbras', [ZbraController::class, 'store']);
 
     // Feed
-    Route::get('/feeds', [FeedController::class, 'index']);
+    Route::get('feeds', [FeedController::class, 'index']);
 
     // Notifications
-    Route::get('/notifications/friend-requests', [NotificationController::class, 'friendRequests']);
+    Route::get('notifications/friend-requests', [NotificationController::class, 'friendRequests']);
 });
