@@ -31,7 +31,7 @@ php artisan test
 
 ### Duster
 
-Duster is a combination of the following linters: TLing, PHP_CodeSniffer, PHP CS Fixer, Pint, [Larastan](https://laravel-news.com/running-phpstan-on-max-with-laravel).
+[Duster](https://github.com/tighten/duster) is a combination of the following linters: TLing, PHP_CodeSniffer, PHP CS Fixer, Pint, [Larastan](https://laravel-news.com/running-phpstan-on-max-with-laravel).
 
 Run Linter
 ```bash

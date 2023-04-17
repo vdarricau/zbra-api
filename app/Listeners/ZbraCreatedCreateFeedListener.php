@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\ZbraCreatedEvent;
+use App\Events\ZbraSentEvent;
 use App\Models\Feed;
 use App\Models\User;
 
@@ -13,7 +13,7 @@ class ZbraCreatedCreateFeedListener
      *
      * Handle the event.
      */
-    public function handle(ZbraCreatedEvent $event): void
+    public function handle(ZbraSentEvent $event): void
     {
         $zbra = $event->zbra;
 

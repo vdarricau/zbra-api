@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\ZbraCreatedEvent;
+use App\Events\ZbraSentEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -44,7 +44,7 @@ class Zbra extends Model
      * @var array<string, string>
      */
     protected $dispatchesEvents = [
-        'saved' => ZbraCreatedEvent::class,
+        'saved' => ZbraSentEvent::class,
     ];
 
     /**
