@@ -20,6 +20,12 @@ Start local development server:
 ```bash
 php artisan serve
 ```
+and websocket server:
+```bash
+php artisan websockets:serve
+```
+
+Both should be running at the same time for the application to run.
 
 ## Commands
 

@@ -23,6 +23,7 @@ class UserSeeder extends Seeder
             'name' => 'Test User',
             'username' => 'valzouille',
             'email' => 'val@zbra.ninja',
+            'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_25_vbh1vh.png',
         ]);
 
         /** @var User */
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
             'id' => self::OTHER_USER_ID,
             'name' => 'User Friend',
             'email' => 'friend@example.com',
+            'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_35_cujygt.png',
         ]);
 
         User::factory()->create([
@@ -47,12 +49,16 @@ class UserSeeder extends Seeder
         ]))->save();
 
         (new FriendRequest([
-            'sender_user_id' => User::factory()->create()->id,
+            'sender_user_id' => User::factory()->create([
+                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_4_u7rkmh.png',
+            ])->id,
             'receiver_user_id' => $user->id,
         ]))->save();
 
         (new FriendRequest([
-            'sender_user_id' => User::factory()->create()->id,
+            'sender_user_id' => User::factory()->create([
+                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_2_p2zind.png',
+            ])->id,
             'receiver_user_id' => $user->id,
         ]))->save();
     }
