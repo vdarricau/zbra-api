@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\FriendRequest;
 use App\Models\User;
+use App\Notifications\NewFriendRequestNotification;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -52,20 +53,26 @@ class UserSeeder extends Seeder
             ])->id,
         ]))->save();
 
-        (new FriendRequest([
+        $friendRequest = (new FriendRequest([
             'sender_user_id' => User::factory()->create([
                 'username' => 'sienalala',
                 'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_7_a4wfao.png',
             ])->id,
             'receiver_user_id' => $user->id,
-        ]))->save();
+        ]));
 
-        (new FriendRequest([
+        $friendRequest->save();
+        $user->notify(new NewFriendRequestNotification($friendRequest));
+
+        $anotherFriendRequest = (new FriendRequest([
             'sender_user_id' => User::factory()->create([
                 'username' => 'mariegolade',
                 'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_2_p2zind.png',
             ])->id,
             'receiver_user_id' => $user->id,
-        ]))->save();
+        ]));
+        
+        $anotherFriendRequest->save();
+        $user->notify(new NewFriendRequestNotification($anotherFriendRequest));
     }
 }
