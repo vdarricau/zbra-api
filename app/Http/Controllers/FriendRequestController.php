@@ -83,9 +83,6 @@ class FriendRequestController extends Controller
 
     public function cancel(FriendRequest $friendRequest): JsonResponse
     {
-        /** @var User */
-        $user = auth()->user();
-
         Gate::inspect('view', $friendRequest);
 
         $friendRequest->cancel();

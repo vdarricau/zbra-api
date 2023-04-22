@@ -29,15 +29,16 @@ class UserSeeder extends Seeder
         /** @var User */
         $friend = User::factory()->create([
             'id' => self::OTHER_USER_ID,
-            'name' => 'User Friend',
-            'email' => 'friend@example.com',
-            'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_35_cujygt.png',
+            'username' => 'jojolerigolo',
+            'name' => 'Edy Hean',
+            'email' => 'edy@zbra.ninja',
+            'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_12_fspo1z.png',
         ]);
 
         User::factory()->create([
             'id' => '988daadd-a5eb-4be5-bab7-07106b644de7',
-            'name' => 'Friendless user',
-            'email' => 'friendless@example.com',
+            'username' => 'lopezenec',
+            'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_6_insccf.png',
         ]);
 
         $user->addFriend($friend);
@@ -45,18 +46,23 @@ class UserSeeder extends Seeder
         (new FriendRequest([
             'id' => '988daadd-a5eb-4be5-bab7-07106b644de7',
             'sender_user_id' => $user->id,
-            'receiver_user_id' => User::factory()->create()->id,
+            'receiver_user_id' => User::factory()->create([
+                'username' => 'gaytan',
+                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_4_u7rkmh.png',
+            ])->id,
         ]))->save();
 
         (new FriendRequest([
             'sender_user_id' => User::factory()->create([
-                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_4_u7rkmh.png',
+                'username' => 'sienalala',
+                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_7_a4wfao.png',
             ])->id,
             'receiver_user_id' => $user->id,
         ]))->save();
 
         (new FriendRequest([
             'sender_user_id' => User::factory()->create([
+                'username' => 'mariegolade',
                 'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_2_p2zind.png',
             ])->id,
             'receiver_user_id' => $user->id,
