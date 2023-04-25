@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Events\ZbraSentEvent;
+use App\Events\MessageSentEvent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $status
  * @property string $message
  */
-class Zbra extends Model
+class Message extends Model
 {
     use HasFactory, HasUuids;
 
@@ -44,30 +44,30 @@ class Zbra extends Model
      * @var array<string, string>
      */
     protected $dispatchesEvents = [
-        'saved' => ZbraSentEvent::class,
+        'saved' => MessageSentEvent::class,
     ];
 
     /**
-     * @return Builder<Zbra>
+     * @return Builder<Message>
      */
-    public static function getExchangedZbras(User $user, User $friend): Builder
+    public static function getExchangedMessages(User $user, User $friend): Builder
     {
         return
-            Zbra::whereIn('sender_user_id', [$user->id, $friend->id])
+            Message::whereIn('sender_user_id', [$user->id, $friend->id])
             ->whereIn('receiver_user_id', [$user->id, $friend->id]);
     }
 
-    public static function getCountUnreadZbras(User $user, User $friend): int
+    public static function getCountUnreadMessages(User $user, User $friend): int
     {
         return
-            Zbra::where('sender_user_id', $friend->id)
+            Message::where('sender_user_id', $friend->id)
             ->where('receiver_user_id', $user->id)
-            ->whereNot('status', Zbra::STATUS_READ)
+            ->whereNot('status', Message::STATUS_READ)
             ->count();
     }
 
     /**
-     * @return BelongsTo<User,Zbra>
+     * @return BelongsTo<User,Message>
      */
     public function sender(): BelongsTo
     {
@@ -75,7 +75,7 @@ class Zbra extends Model
     }
 
     /**
-     * @return BelongsTo<User,Zbra>
+     * @return BelongsTo<User,Message>
      */
     public function receiver(): BelongsTo
     {

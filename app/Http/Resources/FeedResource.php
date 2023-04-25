@@ -17,8 +17,8 @@ class FeedResource extends JsonResource
         return [
             'id' => $this->id,
             'friend' => FriendResource::make($this->friend()->getResults()),
-            'zbra' => ZbraResource::make($this->zbra()->getResults()),
-            'countUnreadZbras' => $this->countUnreadZbras(),
+            'message' => MessageResource::make($this->message()->getResults()),
+            'countUnreadMessages' => $this->countUnreadMessages(),
             'updatedAt' => $this->updated_at,
         ];
     }

@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
-use App\Http\Requests\StoreZbraRequest;
-use App\Http\Resources\ZbraResource;
+use App\Exceptions\MessageCannotBeSentToNonFriendsException;
+use App\Http\Requests\StoreMessageRequest;
+use App\Http\Resources\MessageResource;
 use App\Models\User;
-use App\Models\Zbra;
+use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 
-class ZbraController extends Controller
+class MessageController extends Controller
 {
-    public function store(StoreZbraRequest $request): JsonResponse
+    public function store(StoreMessageRequest $request): JsonResponse
     {
         // @TODO https://laravel.com/docs/10.x/rate-limiting
 
@@ -32,21 +32,11 @@ class ZbraController extends Controller
         }
 
         try {
-            $zbra = $user->sendZbra($friend, $message);
-        } catch (ZbraCannotBeSentToNonFriendsException $exception) {
+            $message = $user->sendMessage($friend, $message);
+        } catch (MessageCannotBeSentToNonFriendsException $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], 400);
         }
 
-        return new JsonResponse(new ZbraResource($zbra), 201);
-    }
-
-    public function show(Zbra $zbra): JsonResponse
-    {
-        $this->authorize('view', $zbra);
-
-        $zbra->status = Zbra::STATUS_READ;
-        $zbra->save();
-
-        return new JsonResponse($zbra);
+        return new JsonResponse(new MessageResource($message), 201);
     }
 }

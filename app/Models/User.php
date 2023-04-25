@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
+use App\Exceptions\MessageCannotBeSentToNonFriendsException;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -103,20 +103,20 @@ class User extends Authenticatable
         return $this->friends()->where('friend_accepting_connection_id', $friend->id)->count() !== 0;
     }
 
-    public function sendZbra(User $friend, string $message): Zbra
+    public function sendMessage(User $friend, string $messageToSend): Message
     {
         if (false === $this->isFriend($friend)) {
-            throw new ZbraCannotBeSentToNonFriendsException;
+            throw new MessageCannotBeSentToNonFriendsException;
         }
 
-        $zbra = new Zbra();
+        $message = new Message();
 
-        $zbra->message = $message;
-        $zbra->receiver()->associate($friend);
-        $zbra->sender()->associate($this);
+        $message->message = $messageToSend;
+        $message->receiver()->associate($friend);
+        $message->sender()->associate($this);
 
-        $zbra->saveOrFail();
+        $message->saveOrFail();
 
-        return $zbra;
+        return $message;
     }
 }

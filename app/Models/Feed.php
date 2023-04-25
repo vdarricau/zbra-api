@@ -31,20 +31,20 @@ class Feed extends Model
     }
 
     /**
-     * @return BelongsTo<Zbra,Feed>
+     * @return BelongsTo<Message,Feed>
      */
-    public function zbra(): BelongsTo
+    public function message(): BelongsTo
     {
-        return $this->belongsTo(Zbra::class, 'zbra_id');
+        return $this->belongsTo(Message::class, 'message_id');
     }
 
-    public function countUnreadZbras(): int
+    public function countUnreadMessages(): int
     {
         /** @var User */
         $user = $this->user()->getResults();
         /** @var User */
         $friend = $this->friend()->getResults();
 
-        return Zbra::getCountUnreadZbras($user, $friend);
+        return Message::getCountUnreadMessages($user, $friend);
     }
 }

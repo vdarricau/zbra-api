@@ -6,7 +6,7 @@ use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ZbraController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,11 +46,10 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     // Friends
     Route::get('friends', [FriendsController::class, 'index']);
     Route::get('friends/{friend}', [FriendsController::class, 'view']);
-    Route::get('friends/{friend}/zbras', [FriendsController::class, 'zbras']);
+    Route::get('friends/{friend}/messages', [FriendsController::class, 'messages']);
 
-    // Zbras
-    Route::get('zbras/{zbra}', [ZbraController::class, 'show']);
-    Route::post('zbras', [ZbraController::class, 'store']);
+    // Messages
+    Route::post('messages', [MessageController::class, 'store']);
 
     // Feed
     Route::get('feeds', [FeedController::class, 'index']);

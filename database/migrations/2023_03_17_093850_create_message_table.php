@@ -9,7 +9,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('zbras', static function (Blueprint $table): void {
+        Schema::create('messages', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'sender_user_id');
             $table->foreignIdFor(User::class, 'receiver_user_id');
@@ -21,6 +21,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('zbras');
+        Schema::dropIfExists('messages');
     }
 };

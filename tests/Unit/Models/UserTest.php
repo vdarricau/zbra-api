@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Models;
 
-use App\Exceptions\ZbraCannotBeSentToNonFriendsException;
+use App\Exceptions\MessageCannotBeSentToNonFriendsException;
 use App\Models\Feed;
 use App\Models\User;
-use App\Models\Zbra;
+use App\Models\Message;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
@@ -23,29 +23,29 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         /** @var User */
-        $friendWithZbra = User::factory()->create();
+        $friendWithMessage = User::factory()->create();
         /** @var User */
-        $friendNoZbra = User::factory()->create();
+        $friendNoMessage = User::factory()->create();
 
-        $user->addFriend($friendWithZbra);
-        $user->addFriend($friendNoZbra);
+        $user->addFriend($friendWithMessage);
+        $user->addFriend($friendNoMessage);
 
         self::assertEmpty($user->feeds()->get());
 
-        $zbra = Zbra::factory()
+        $message = Message::factory()
             ->create([
                 'sender_user_id' => $user->id,
-                'receiver_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $friendWithMessage->id,
                 'message' => 'zbra',
             ]);
 
-        $zbra->setCreatedAt(Date::yesterday());
-        $zbra->save();
+        $message->setCreatedAt(Date::yesterday());
+        $message->save();
 
-        $mostRecentZbra = Zbra::factory()
+        $mostRecentMessage = Message::factory()
             ->create([
                 'sender_user_id' => $user->id,
-                'receiver_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $friendWithMessage->id,
                 'message' => 'most recent zbra',
             ]);
 
@@ -56,8 +56,8 @@ class UserTest extends TestCase
         /** @var Feed */
         $feed = $feeds->first();
 
-        self::assertFalse($feed->zbra()->is($zbra));
-        self::assertTrue($feed->zbra()->is($mostRecentZbra));
+        self::assertFalse($feed->message()->is($message));
+        self::assertTrue($feed->message()->is($mostRecentMessage));
     }
 
     /**
@@ -69,28 +69,28 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         /** @var User */
-        $friendWithZbra = User::factory()->create();
+        $friendWithMessage = User::factory()->create();
         /** @var User */
-        $friendNoZbra = User::factory()->create();
+        $friendNoMessage = User::factory()->create();
 
-        $user->addFriend($friendWithZbra);
-        $user->addFriend($friendNoZbra);
+        $user->addFriend($friendWithMessage);
+        $user->addFriend($friendNoMessage);
 
         self::assertEmpty($user->feeds()->get());
 
-        $zbra = Zbra::factory()
+        $message = Message::factory()
             ->create([
-                'sender_user_id' => $friendWithZbra->id,
+                'sender_user_id' => $friendWithMessage->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'zbra',
             ]);
 
-        $zbra->setCreatedAt(Date::yesterday());
-        $zbra->save();
+        $message->setCreatedAt(Date::yesterday());
+        $message->save();
 
-        $mostRecentZbra = Zbra::factory()
+        $mostRecentMessage = Message::factory()
             ->create([
-                'sender_user_id' => $friendWithZbra->id,
+                'sender_user_id' => $friendWithMessage->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ]);
@@ -102,8 +102,8 @@ class UserTest extends TestCase
         /** @var Feed */
         $feed = $feeds->first();
 
-        self::assertFalse($feed->zbra()->is($zbra));
-        self::assertTrue($feed->zbra()->is($mostRecentZbra));
+        self::assertFalse($feed->message()->is($message));
+        self::assertTrue($feed->message()->is($mostRecentMessage));
     }
 
     /**
@@ -115,28 +115,28 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         /** @var User */
-        $friendWithZbra = User::factory()->create();
+        $friendWithMessage = User::factory()->create();
         /** @var User */
-        $friendNoZbra = User::factory()->create();
+        $friendNoMessage = User::factory()->create();
 
-        $user->addFriend($friendWithZbra);
-        $user->addFriend($friendNoZbra);
+        $user->addFriend($friendWithMessage);
+        $user->addFriend($friendNoMessage);
 
         self::assertEmpty($user->feeds()->get());
 
-        $zbra = Zbra::factory()
+        $message = Message::factory()
             ->create([
                 'sender_user_id' => $user->id,
-                'receiver_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $friendWithMessage->id,
                 'message' => 'zbra',
             ]);
 
-        $zbra->setCreatedAt(Date::yesterday());
-        $zbra->save();
+        $message->setCreatedAt(Date::yesterday());
+        $message->save();
 
-        $mostRecentZbra = Zbra::factory()
+        $mostRecentMessage = Message::factory()
             ->create([
-                'sender_user_id' => $friendWithZbra->id,
+                'sender_user_id' => $friendWithMessage->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ]);
@@ -148,8 +148,8 @@ class UserTest extends TestCase
         /** @var Feed */
         $feed = $feeds->first();
 
-        self::assertFalse($feed->zbra()->is($zbra));
-        self::assertTrue($feed->zbra()->is($mostRecentZbra));
+        self::assertFalse($feed->message()->is($message));
+        self::assertTrue($feed->message()->is($mostRecentMessage));
     }
 
     /**
@@ -161,24 +161,24 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         /** @var User */
-        $friendWithZbra = User::factory()->create();
+        $friendWithMessage = User::factory()->create();
         /** @var User */
-        $anotherFriendWithZbra = User::factory()->create();
+        $anotherFriendWithMessage = User::factory()->create();
 
-        $user->addFriend($friendWithZbra);
-        $user->addFriend($anotherFriendWithZbra);
+        $user->addFriend($friendWithMessage);
+        $user->addFriend($anotherFriendWithMessage);
 
         self::assertEmpty($user->feeds()->get());
 
-        $zbra = Zbra::factory()
+        $message = Message::factory()
             ->create([
                 'sender_user_id' => $user->id,
-                'receiver_user_id' => $friendWithZbra->id,
+                'receiver_user_id' => $friendWithMessage->id,
                 'message' => 'zbra',
             ]);
 
-        $zbra->setCreatedAt(Date::yesterday());
-        $zbra->save();
+        $message->setCreatedAt(Date::yesterday());
+        $message->save();
 
         $feeds = $user->feeds()->get();
 
@@ -187,11 +187,11 @@ class UserTest extends TestCase
         /** @var Feed */
         $feed = $feeds->first();
 
-        self::assertTrue($feed->zbra()->is($zbra));
+        self::assertTrue($feed->message()->is($message));
 
-        $mostRecentZbra = Zbra::factory()
+        $mostRecentMessage = Message::factory()
             ->create([
-                'sender_user_id' => $anotherFriendWithZbra->id,
+                'sender_user_id' => $anotherFriendWithMessage->id,
                 'receiver_user_id' => $user->id,
                 'message' => 'most recent zbra',
             ]);
@@ -204,14 +204,14 @@ class UserTest extends TestCase
         $feed = $feeds->shift();
         $second = $feeds->shift();
 
-        self::assertTrue($feed->zbra()->is($zbra));
-        self::assertTrue($second->zbra()->is($mostRecentZbra));
+        self::assertTrue($feed->message()->is($message));
+        self::assertTrue($second->message()->is($mostRecentMessage));
     }
 
     /**
      * @test
      */
-    public function sendZbra_should_throw_exception_if_not_friends(): void
+    public function sendMessage_should_throw_exception_if_not_friends(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -219,15 +219,15 @@ class UserTest extends TestCase
         /** @var User */
         $notAFriend = User::factory()->create();
 
-        $this->expectException(ZbraCannotBeSentToNonFriendsException::class);
+        $this->expectException(MessageCannotBeSentToNonFriendsException::class);
 
-        $user->sendZbra($notAFriend, 'Zbralicious');
+        $user->sendMessage($notAFriend, 'Messagelicious');
     }
 
     /**
      * @test
      */
-    public function sendZbra_should_create_zbra(): void
+    public function sendMessage_should_create_message(): void
     {
         /** @var User */
         $user = User::factory()->create();
@@ -237,10 +237,10 @@ class UserTest extends TestCase
 
         $user->addFriend($friend);
 
-        $zbra = $user->sendZbra($friend, 'Zbralicious');
+        $message = $user->sendMessage($friend, 'Messagelicious');
 
-        self::assertSame('Zbralicious', $zbra->message);
-        self::assertTrue($user->is($zbra->sender()->getResults()));
-        self::assertTrue($friend->is($zbra->receiver()->getResults()));
+        self::assertSame('Messagelicious', $message->message);
+        self::assertTrue($user->is($message->sender()->getResults()));
+        self::assertTrue($friend->is($message->receiver()->getResults()));
     }
 }

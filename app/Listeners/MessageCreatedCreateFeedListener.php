@@ -2,26 +2,26 @@
 
 namespace App\Listeners;
 
-use App\Events\ZbraSentEvent;
+use App\Events\MessageSentEvent;
 use App\Models\Feed;
 use App\Models\User;
 
-class ZbraCreatedCreateFeedListener
+class MessageCreatedCreateFeedListener
 {
     /**
      * @TODO test this shit
      *
      * Handle the event.
      */
-    public function handle(ZbraSentEvent $event): void
+    public function handle(MessageSentEvent $event): void
     {
-        $zbra = $event->zbra;
+        $message = $event->message;
 
         /** @var User */
-        $sender = $zbra->sender()->getResults();
+        $sender = $message->sender()->getResults();
 
         /** @var User */
-        $receiver = $zbra->receiver()->getResults();
+        $receiver = $message->receiver()->getResults();
 
         $feed = Feed::where('user_id', $sender->id)->where('receiver_user_id', $receiver->id)->first();
         $feedSender = Feed::where('user_id', $receiver->id)->where('receiver_user_id', $sender->id)->first();
@@ -38,8 +38,8 @@ class ZbraCreatedCreateFeedListener
             $feedSender->friend()->associate($sender);
         }
 
-        $feed->zbra()->associate($zbra);
-        $feedSender->zbra()->associate($zbra);
+        $feed->message()->associate($message);
+        $feedSender->message()->associate($message);
 
         $feed->save();
         $feedSender->save();

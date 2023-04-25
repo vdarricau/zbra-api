@@ -2,22 +2,22 @@
 
 namespace App\Events;
 
-use App\Http\Resources\ZbraResource;
-use App\Models\Zbra;
+use App\Http\Resources\MessageResource;
+use App\Models\Message;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ZbraSentEvent implements ShouldBroadcast
+class MessageSentEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(public Zbra $zbra)
+    public function __construct(public Message $message)
     {
     }
 
@@ -26,19 +26,19 @@ class ZbraSentEvent implements ShouldBroadcast
      */
     public function broadcastOn(): PrivateChannel
     {
-        $senderId = $this->zbra->sender()->getResults()->id;
-        $receiverId = $this->zbra->receiver()->getResults()->id;
+        $senderId = $this->message->sender()->getResults()->id;
+        $receiverId = $this->message->receiver()->getResults()->id;
 
-        return new PrivateChannel('zbras.' . $senderId . '.' . $receiverId);
+        return new PrivateChannel('messages.' . $senderId . '.' . $receiverId);
     }
 
     /**
-     * @return array<string, ZbraResource>
+     * @return array<string, MessageResource>
      */
     public function broadcastWith(): array
     {
         return [
-            'data' => new ZbraResource($this->zbra),
+            'data' => new MessageResource($this->message),
         ];
     }
 }

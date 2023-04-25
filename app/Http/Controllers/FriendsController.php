@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FriendResource;
-use App\Http\Resources\ZbraResource;
+use App\Http\Resources\MessageResource;
 use App\Models\User;
-use App\Models\Zbra;
+use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -45,7 +45,7 @@ class FriendsController extends Controller
         return new JsonResponse(new FriendResource($friend));
     }
 
-    public function zbras(User $friend): JsonResponse
+    public function messages(User $friend): JsonResponse
     {
         /** @var User */
         $user = auth()->user();
@@ -56,9 +56,9 @@ class FriendsController extends Controller
             ], 403);
         }
 
-        $zbras = Zbra::getExchangedZbras($user, $friend);
-        $zbras->update(['status' => Zbra::STATUS_READ]);
+        $messages = Message::getExchangedMessages($user, $friend);
+        $messages->update(['status' => Message::STATUS_READ]);
 
-        return new JsonResponse(ZbraResource::collection($zbras->get()));
+        return new JsonResponse(MessageResource::collection($messages->get()));
     }
 }

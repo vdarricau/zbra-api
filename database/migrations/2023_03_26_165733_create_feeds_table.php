@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\User;
-use App\Models\Zbra;
+use App\Models\Message;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +14,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'user_id');
             $table->foreignIdFor(User::class, 'receiver_user_id');
-            $table->foreignIdFor(Zbra::class, 'zbra_id')->nullable();
+            $table->foreignIdFor(Message::class, 'message_id')->nullable();
             $table->timestamps();
         });
     }
