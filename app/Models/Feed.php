@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
+ * @TODO transform this into Conversation model
+ *
  * @property string $id
  */
 class Feed extends Model

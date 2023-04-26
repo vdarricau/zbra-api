@@ -20,5 +20,5 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 /* @TODO, turn to conversations, as it's scalable to more than two users */
 Broadcast::channel('messages.{sender}.{receiver}', function (User $user, User $sender, User $receiver) {
-	return $user->is($receiver);
+    return $user->is($receiver);
 });

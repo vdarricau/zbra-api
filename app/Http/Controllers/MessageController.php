@@ -6,7 +6,6 @@ use App\Exceptions\MessageCannotBeSentToNonFriendsException;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Models\User;
-use App\Models\Message;
 use Illuminate\Http\JsonResponse;
 
 class MessageController extends Controller

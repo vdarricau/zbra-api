@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
             ])->id,
             'receiver_user_id' => $user->id,
         ]));
-        
+
         $anotherFriendRequest->save();
         $user->notify(new NewFriendRequestNotification($anotherFriendRequest));
     }

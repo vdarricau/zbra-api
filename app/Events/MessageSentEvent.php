@@ -29,7 +29,7 @@ class MessageSentEvent implements ShouldBroadcast
         $senderId = $this->message->sender()->getResults()->id;
         $receiverId = $this->message->receiver()->getResults()->id;
 
-        return new PrivateChannel('messages.' . $senderId . '.' . $receiverId);
+        return new PrivateChannel('messages.'.$senderId.'.'.$receiverId);
     }
 
     /**

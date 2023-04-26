@@ -4,8 +4,8 @@ namespace Tests\Unit\Models;
 
 use App\Exceptions\MessageCannotBeSentToNonFriendsException;
 use App\Models\Feed;
-use App\Models\User;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Support\Facades\Date;
 use Tests\TestCase;
 
