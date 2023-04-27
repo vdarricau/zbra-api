@@ -26,10 +26,9 @@ class MessageSentEvent implements ShouldBroadcast
      */
     public function broadcastOn(): PrivateChannel
     {
-        $senderId = $this->message->sender()->getResults()->id;
-        $receiverId = $this->message->receiver()->getResults()->id;
+        $conversationId = $this->message->conversation()->getResults()->id;
 
-        return new PrivateChannel('messages.'.$senderId.'.'.$receiverId);
+        return new PrivateChannel('messages.'.$conversationId); /* @TODO add others */
     }
 
     /**

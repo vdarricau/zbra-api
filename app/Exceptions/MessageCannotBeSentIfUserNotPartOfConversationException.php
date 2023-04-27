@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use RuntimeException;
 
-class MessageCannotBeSentToNonFriendsException extends RuntimeException
+class MessageCannotBeSentIfUserNotPartOfConversationException extends RuntimeException
 {
     public function __construct()
     {

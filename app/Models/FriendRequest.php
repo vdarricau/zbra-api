@@ -83,6 +83,8 @@ class FriendRequest extends Model
 
     public function accept(): void
     {
+        $this->sender()->getResults()->addFriend($this->receiver()->getResults());
+
         $this->update(['status' => self::STATUS_ACCEPTED]);
         $this->fireModelEvent('accepted');
     }

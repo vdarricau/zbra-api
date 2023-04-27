@@ -3,10 +3,10 @@
 namespace App\Listeners;
 
 use App\Events\FriendRequestAcceptedEvent;
-use App\Models\Feed;
+use App\Models\Conversation;
 use App\Models\User;
 
-class FriendRequestAcceptedCreatedFeedListener
+class FriendRequestAcceptedCreatedConversationListener
 {
     /**
      * Handle the event.
@@ -21,15 +21,10 @@ class FriendRequestAcceptedCreatedFeedListener
         /** @var User */
         $to = $friendRequest->receiver()->getResults();
 
-        $feed = new Feed();
-        $feed->user()->associate($from);
-        $feed->friend()->associate($to);
+        $conversation = new Conversation();
+        $conversation->save();
 
-        $feedSender = new Feed();
-        $feedSender->user()->associate($to);
-        $feedSender->friend()->associate($from);
-
-        $feed->save();
-        $feedSender->save();
+        $conversation->users()->attach($from);
+        $conversation->users()->attach($to);
     }
 }

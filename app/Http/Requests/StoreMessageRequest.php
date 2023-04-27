@@ -15,7 +15,6 @@ class StoreMessageRequest extends FormRequest
     {
         return [
             'message' => 'required|string|max:255',
-            'friendId' => 'required|exists:App\Models\User,id',
         ];
     }
 }

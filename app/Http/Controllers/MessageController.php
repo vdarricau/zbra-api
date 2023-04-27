@@ -2,37 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\MessageCannotBeSentToNonFriendsException;
+use App\Exceptions\MessageCannotBeSentIfUserNotPartOfConversationException;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Resources\MessageResource;
+use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class MessageController extends Controller
 {
-    public function store(StoreMessageRequest $request): JsonResponse
+    public function store(Conversation $conversation, StoreMessageRequest $request): JsonResponse
     {
         // @TODO https://laravel.com/docs/10.x/rate-limiting
+
+        Gate::authorize('update', $conversation);
 
         /** @var string[] */
         $validatedParams = $request->validated();
 
         $message = $validatedParams['message'];
-        $friendId = $validatedParams['friendId'];
 
         /** @var User */
         $user = auth()->user();
 
-        /** @var User|null */
-        $friend = User::find($friendId);
-
-        if ($friend === null) {
-            return new JsonResponse(['error' => 'Cannot find your zbro!'], 404);
-        }
-
         try {
-            $message = $user->sendMessage($friend, $message);
-        } catch (MessageCannotBeSentToNonFriendsException $exception) {
+            $message = $user->sendMessage($conversation, $message);
+        } catch (MessageCannotBeSentIfUserNotPartOfConversationException $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], 400);
         }
 

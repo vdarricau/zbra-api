@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,9 +13,9 @@ return new class extends Migration
         Schema::create('messages', static function (Blueprint $table): void {
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'sender_user_id');
-            $table->foreignIdFor(User::class, 'receiver_user_id');
+            $table->foreignIdFor(Conversation::class, 'conversation_id');
             $table->string('message');
-            $table->enum('status', ['sent', 'received', 'read'])->default('sent');
+            $table->enum('status', ['sent', 'read'])->default('sent');
             $table->timestamps();
         });
     }

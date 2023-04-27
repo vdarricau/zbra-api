@@ -66,15 +66,7 @@ class FriendRequestController extends Controller
 
     public function accept(FriendRequest $friendRequest): JsonResponse
     {
-        /** @var User */
-        $user = auth()->user();
-
         Gate::inspect('view', $friendRequest);
-
-        /** @var User */
-        $newFriend = $friendRequest->sender()->getResults();
-
-        $user->addFriend($newFriend);
 
         $friendRequest->accept();
 

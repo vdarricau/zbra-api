@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\FeedController;
+use App\Http\Controllers\ConversationController;
 use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\FriendsController;
 use App\Http\Controllers\MessageController;
@@ -46,13 +46,12 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     // Friends
     Route::get('friends', [FriendsController::class, 'index']);
     Route::get('friends/{friend}', [FriendsController::class, 'view']);
-    Route::get('friends/{friend}/messages', [FriendsController::class, 'messages']);
 
     // Messages
-    Route::post('messages', [MessageController::class, 'store']);
+    Route::post('conversations/{conversation}/messages', [MessageController::class, 'store']);
 
-    // Feed
-    Route::get('feeds', [FeedController::class, 'index']);
+    // Conversation
+    Route::get('conversations', [ConversationController::class, 'index']);
 
     // Notifications
     Route::get('notifications/friend-requests', [NotificationController::class, 'friendRequests']);

@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Exceptions\MessageCannotBeSentToNonFriendsException;
+use App\Exceptions\MessageCannotBeSentIfUserNotPartOfConversationException;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -81,17 +81,21 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasMany<Feed>
+     * @return BelongsToMany<Conversation>
      */
-    public function feeds(): HasMany
+    public function conversations(): BelongsToMany
     {
-        return $this->hasMany(Feed::class, 'user_id');
+        return $this->belongsToMany(Conversation::class, 'conversations_users', 'user_id', 'conversation_id');
     }
 
     public function addFriend(User $newFriend): void
     {
+        if ($this->isFriend($newFriend)) {
+            throw new LogicException('You guys are already zbros!');
+        }
+
         if ($newFriend->is($this)) {
-            throw new LogicException('Can\'t add yourself as your friend!');
+            throw new LogicException('Can\'t add yourself as zbro!');
         }
 
         $this->friends()->attach($newFriend);
@@ -103,16 +107,16 @@ class User extends Authenticatable
         return $this->friends()->where('friend_accepting_connection_id', $friend->id)->count() !== 0;
     }
 
-    public function sendMessage(User $friend, string $messageToSend): Message
+    public function sendMessage(Conversation $conversation, string $messageToSend): Message
     {
-        if (false === $this->isFriend($friend)) {
-            throw new MessageCannotBeSentToNonFriendsException;
+        if (false === $conversation->users()->get()->contains($this)) {
+            throw new MessageCannotBeSentIfUserNotPartOfConversationException();
         }
 
         $message = new Message();
 
         $message->message = $messageToSend;
-        $message->receiver()->associate($friend);
+        $message->conversation()->associate($conversation);
         $message->sender()->associate($this);
 
         $message->saveOrFail();

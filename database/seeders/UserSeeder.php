@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\FriendRequest;
 use App\Models\User;
-use App\Notifications\NewFriendRequestNotification;
+use Database\Factories\FriendFactory;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -27,8 +26,7 @@ class UserSeeder extends Seeder
             'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_25_vbh1vh.png',
         ]);
 
-        /** @var User */
-        $friend = User::factory()->create([
+        FriendFactory::make($user, [
             'id' => self::OTHER_USER_ID,
             'username' => 'jojolerigolo',
             'name' => 'Edy Hean',
@@ -41,38 +39,5 @@ class UserSeeder extends Seeder
             'username' => 'lopezenec',
             'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_6_insccf.png',
         ]);
-
-        $user->addFriend($friend);
-
-        (new FriendRequest([
-            'id' => '988daadd-a5eb-4be5-bab7-07106b644de7',
-            'sender_user_id' => $user->id,
-            'receiver_user_id' => User::factory()->create([
-                'username' => 'gaytan',
-                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_4_u7rkmh.png',
-            ])->id,
-        ]))->save();
-
-        $friendRequest = (new FriendRequest([
-            'sender_user_id' => User::factory()->create([
-                'username' => 'sienalala',
-                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_7_a4wfao.png',
-            ])->id,
-            'receiver_user_id' => $user->id,
-        ]));
-
-        $friendRequest->save();
-        $user->notify(new NewFriendRequestNotification($friendRequest));
-
-        $anotherFriendRequest = (new FriendRequest([
-            'sender_user_id' => User::factory()->create([
-                'username' => 'mariegolade',
-                'avatar' => 'https://res.cloudinary.com/dqs1ue9ka/image/upload/v1682188531/default-avatars/Groupe_de_masques_2_p2zind.png',
-            ])->id,
-            'receiver_user_id' => $user->id,
-        ]));
-
-        $anotherFriendRequest->save();
-        $user->notify(new NewFriendRequestNotification($anotherFriendRequest));
     }
 }

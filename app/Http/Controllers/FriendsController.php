@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FriendResource;
-use App\Http\Resources\MessageResource;
-use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -43,22 +41,5 @@ class FriendsController extends Controller
         }
 
         return new JsonResponse(new FriendResource($friend));
-    }
-
-    public function messages(User $friend): JsonResponse
-    {
-        /** @var User */
-        $user = auth()->user();
-
-        if (false === $user->isFriend($friend)) {
-            return new JsonResponse([
-                'error' => 'You are not zbros!',
-            ], 403);
-        }
-
-        $messages = Message::getExchangedMessages($user, $friend);
-        $messages->update(['status' => Message::STATUS_READ]);
-
-        return new JsonResponse(MessageResource::collection($messages->get()));
     }
 }
