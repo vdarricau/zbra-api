@@ -6,6 +6,7 @@ use App\Exceptions\MessageCannotBeSentIfUserNotPartOfConversationException;
 use App\Models\Conversation;
 use App\Models\User;
 use Database\Factories\FriendFactory;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UserTest extends TestCase
@@ -32,6 +33,9 @@ class UserTest extends TestCase
     {
         /** @var User */
         $user = User::factory()->create();
+
+        $this->actingAs($user);
+        Sanctum::actingAs($user);
 
         FriendFactory::make($user);
 

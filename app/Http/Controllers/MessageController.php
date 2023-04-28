@@ -18,7 +18,7 @@ class MessageController extends Controller
 
         return new JsonResponse(MessageResource::collection($conversation->messages()->get()));
     }
-    
+
     public function store(Conversation $conversation, StoreMessageRequest $request): JsonResponse
     {
         // @TODO https://laravel.com/docs/10.x/rate-limiting
