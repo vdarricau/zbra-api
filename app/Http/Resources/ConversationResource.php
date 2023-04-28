@@ -18,13 +18,12 @@ class ConversationResource extends JsonResource
         /** @var User */
         $user = $request->user();
 
-        $friend = $this->users()->where('id', '!=', $user->id)->first();
+        $friend = $this->users()->where('user_id', '!=', $user->id)->first();
 
         return [
             'id' => $this->id,
             'friend' => FriendResource::make($friend),
-            'messages' => MessageResource::collection($this->messages()->orderByDesc('created_at')->getResults()),
-            // 'countUnreadMessages' => $this->countUnreadMessages(), /* @TODO implement that differently */
+            'countUnreadMessages' => 0, /* @TODO implement that differently */
             'updatedAt' => $this->updated_at,
         ];
     }

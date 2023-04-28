@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Gate;
 
 class MessageController extends Controller
 {
+    public function index(Conversation $conversation): JsonResponse
+    {
+        Gate::authorize('view', $conversation);
+
+        return new JsonResponse(MessageResource::collection($conversation->messages()->get()));
+    }
+    
     public function store(Conversation $conversation, StoreMessageRequest $request): JsonResponse
     {
         // @TODO https://laravel.com/docs/10.x/rate-limiting

@@ -28,7 +28,7 @@ class MessageSentEvent implements ShouldBroadcast
     {
         $conversationId = $this->message->conversation()->getResults()->id;
 
-        return new PrivateChannel('messages.'.$conversationId); /* @TODO add others */
+        return new PrivateChannel('conversations.'.$conversationId); /* @TODO add others */
     }
 
     /**

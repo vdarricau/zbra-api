@@ -12,7 +12,7 @@ class ConversationPolicy
      */
     public function view(User $user, Conversation $conversation): bool
     {
-        return $conversation->users()->contains($user);
+        return $conversation->users()->get()->contains($user);
     }
 
     /**

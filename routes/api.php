@@ -47,11 +47,13 @@ Route::group(['middleware' => ['auth:sanctum']], static function (): void {
     Route::get('friends', [FriendsController::class, 'index']);
     Route::get('friends/{friend}', [FriendsController::class, 'view']);
 
-    // Messages
-    Route::post('conversations/{conversation}/messages', [MessageController::class, 'store']);
-
     // Conversation
     Route::get('conversations', [ConversationController::class, 'index']);
+    Route::get('conversations/{conversation}', [ConversationController::class, 'view']);
+
+    // Messages
+    Route::get('conversations/{conversation}/messages', [MessageController::class, 'index']);
+    Route::post('conversations/{conversation}/messages', [MessageController::class, 'store']);
 
     // Notifications
     Route::get('notifications/friend-requests', [NotificationController::class, 'friendRequests']);
