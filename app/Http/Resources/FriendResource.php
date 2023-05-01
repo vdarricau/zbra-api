@@ -20,7 +20,7 @@ class FriendResource extends JsonResource
         $user = auth()->user();
         $conversationId = null;
 
-        if ($user->isNot($this->resource)) {
+        if ($user && $user->isNot($this->resource)) {
             $conversationId = Conversation::findOneOnOne($user, $this->resource)?->id;
         }
 
