@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use LogicException;
 
@@ -107,19 +108,25 @@ class User extends Authenticatable
         return $this->friends()->where('friend_accepting_connection_id', $friend->id)->count() !== 0;
     }
 
-    public function sendMessage(Conversation $conversation, string $messageToSend): Message
+    public function sendMessage(Conversation $conversation, Message $message, ?Zbra $zbra = null): Message
     {
+        DB::beginTransaction();
+
         if (false === $conversation->users()->get()->contains($this)) {
             throw new MessageCannotBeSentIfUserNotPartOfConversationException();
         }
 
-        $message = new Message();
-
-        $message->message = $messageToSend;
         $message->conversation()->associate($conversation);
         $message->sender()->associate($this);
 
         $message->saveOrFail();
+
+        if (null !== $zbra) {
+            $zbra->message()->associate($message);
+            $zbra->saveOrFail();
+        }
+
+        DB::commit();
 
         return $message;
     }

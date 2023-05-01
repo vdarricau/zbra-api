@@ -14,7 +14,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->foreignIdFor(User::class, 'sender_user_id');
             $table->foreignIdFor(Conversation::class, 'conversation_id');
-            $table->string('message');
+            $table->string('message')->nullable()->default(null);
             $table->enum('status', ['sent', 'read'])->default('sent');
             $table->timestamps();
         });

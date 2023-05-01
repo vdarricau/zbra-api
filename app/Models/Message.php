@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @property string $id
  * @property string $status
- * @property string $message
+ * @property string|null $message
  */
 class Message extends Model
 {
@@ -58,5 +59,13 @@ class Message extends Model
     public function conversation(): BelongsTo
     {
         return $this->belongsTo(Conversation::class, 'conversation_id');
+    }
+
+    /**
+     * @return HasOne<Zbra,Message>
+     */
+    public function zbra(): HasOne
+    {
+        return $this->hasOne(Zbra::class);
     }
 }

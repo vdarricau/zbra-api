@@ -6,6 +6,7 @@ use App\Exceptions\MessageCannotBeSentIfUserNotPartOfConversationException;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Models\Conversation;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Gate;
@@ -28,13 +29,13 @@ class MessageController extends Controller
         /** @var string[] */
         $validatedParams = $request->validated();
 
-        $message = $validatedParams['message'];
+        $text = $validatedParams['message'];
 
         /** @var User */
         $user = auth()->user();
 
         try {
-            $message = $user->sendMessage($conversation, $message);
+            $message = $user->sendMessage($conversation, (new Message(['message' => $text])));
         } catch (MessageCannotBeSentIfUserNotPartOfConversationException $exception) {
             return new JsonResponse(['error' => $exception->getMessage()], 400);
         }
