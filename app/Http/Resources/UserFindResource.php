@@ -25,7 +25,7 @@ class UserFindResource extends JsonResource
         return [
             'id' => $this->id,
             'friendRequest' => $friendRequest ? new FriendRequestResource($friendRequest) : null,
-            'user' => new FriendResource($this),
+            'user' => new FriendResource($this->resource),
             'isFriend' => $user->isFriend($this->resource),
         ];
     }
